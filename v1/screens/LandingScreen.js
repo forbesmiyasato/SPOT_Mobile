@@ -2,17 +2,16 @@ import React, { useState } from 'react';
 import { ImageBackground, View, StyleSheet, Animated, Dimensions, TouchableWithoutFeedback, Keyboard, Easing, KeyboardAvoidingView } from 'react-native';
 import Colors from '../constants/Colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import LocationInput from '../components/LocationInput';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
 import Button from '../components/Button';
 import Text from '../components/LatoText';
 import Config from '../config';
+import LocationSearchBar from '../components/LocationSearchBar';
+
 const width = Dimensions.get('window').width;
 
 
 const LandingScreen = () => {
-    const [predictions, setPredictions] = useState([]);
-    const [location, setLocation] = useState(null);
 
     var textValue = new Animated.Value(0);
     var buttonMove = new Animated.Value(0);
@@ -61,19 +60,6 @@ const LandingScreen = () => {
         outputRange: [-100, 20, 0]
     })
 
-    async function onLocationChange (inputLocation) {
-        console.log(inputLocation);
-        console.log(Config.GOOGLE_API);
-        const API_URL = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${inputLocation}+Amphitheatre&key=${Config.GOOGLE_API}&sessiontoken=1234567890`;
-        try {
-        const result = await fetch(API_URL);
-        const json = await result.json();
-        console.log(json);
-        } catch (err){
-            console.log(err);
-        }
-    };
-
     return (
         <TouchableWithoutFeedback onPress={() => {
             Keyboard.dismiss();
@@ -96,10 +82,7 @@ const LandingScreen = () => {
                                 <Text style={styles.headerSub}>Single Parking Observation Tool</Text>
                             </View>
                         </Animated.View>
-                        <LocationInput style={styles.locationInput}
-                            iconColor={Colors.primary}
-                            placeholderColor={Colors.greyDark} 
-                            onChangeInput={onLocationChange}/>
+                        <LocationSearchBar />
                         <Animated.View style={{ opacity: buttonOpacity, transform: [{ translateY: translationUpY }] }}>
                             <Button style={styles.button}><Text>Current Location <Entypo name="location" size={20} /></Text></Button>
                         </Animated.View>

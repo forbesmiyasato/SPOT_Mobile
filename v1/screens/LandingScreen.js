@@ -11,6 +11,7 @@ const width = Dimensions.get('window').width;
 
 const LandingScreen = () => {
     const [moveDistance, setMoveDistance] = useState(10);
+    const [predictions, setPredictions] = useState([]);
 
     var textValue = new Animated.Value(0);
     var buttonMove = new Animated.Value(0);
@@ -59,7 +60,11 @@ const LandingScreen = () => {
         outputRange: [-100, 20, 0]
     })
 
-
+    const onLocationChange = (inputLocation) => {
+        // console.log(GOOGLE_API);
+        // console.log(inputLocation);
+        // `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=+Amphitheatre&key=${GOOGLE_API}&sessiontoken=1234567890`
+    };
 
     return (
         <TouchableWithoutFeedback onPress={() => {
@@ -85,7 +90,8 @@ const LandingScreen = () => {
                         </Animated.View>
                         <LocationInput style={styles.locationInput}
                             iconColor={Colors.primary}
-                            placeholderColor={Colors.greyDark} />
+                            placeholderColor={Colors.greyDark} 
+                            onChangeInput={onLocationChange}/>
                         <Animated.View style={{ opacity: buttonOpacity, transform: [{ translateY: translationUpY }] }}>
                             <Button style={styles.button}><Text>Current Location <Entypo name="location" size={20} /></Text></Button>
                         </Animated.View>
@@ -130,7 +136,6 @@ const styles = StyleSheet.create({
         letterSpacing: width / 15
     },
     headerSubContainer: {
-        
         borderBottomColor: Colors.white,
         borderBottomWidth: 1,
         paddingBottom: 5

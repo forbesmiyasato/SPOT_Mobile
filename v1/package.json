@@ -16,8 +16,9 @@
     "expo-linear-gradient": "~8.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
     "babel-preset-expo": "~8.0.0",
-    "@babel/core": "^7.0.0"
+    "react-native-dotenv": "^0.2.0"
   },
   "private": true
 }

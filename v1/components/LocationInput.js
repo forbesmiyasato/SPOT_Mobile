@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, Dimensions} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const ScreenWidth = Dimensions.get('window').width;
 
 const LocationInput = (props) => {
+    const [input, setInput] = useState("");
+
+    const onChangeText = (text) => {
+        setInput(text);
+    }
+
+    useEffect(()=> {
+        props.onChangeInput(input);
+    }, [input])
+    
     return (
         <View style={{...styles.inputContainer, ...props.style }}>
-            <TextInput placeholderTextColor={props.placeholderColor} placeholder='Enter Location' style={styles.searchBar} /> 
+            <TextInput placeholderTextColor={props.placeholderColor} 
+            placeholder='Enter Location' 
+            style={styles.searchBar} 
+            onChangeText={onChangeText}/> 
             <Ionicons style={styles.searchIcon} name="ios-search" size={30} color={props.iconColor} />
         </View>
         )

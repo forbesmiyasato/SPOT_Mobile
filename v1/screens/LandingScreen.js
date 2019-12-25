@@ -66,7 +66,7 @@ const LandingScreen = () => {
             Keyboard.dismiss();
         }}>
             <KeyboardAvoidingView style={styles.container}
-            behavior="height" >
+                behavior="height" >
                 <ImageBackground source={require('../assets/LandingImage2.jpg')}
                     style={{ width: '100%', height: '100%' }}>
                     <LinearGradient colors={[Colors.radient1, Colors.radient2]}
@@ -79,12 +79,15 @@ const LandingScreen = () => {
                             <Text style={styles.headerMain}> SPOT </Text>
                         </Animated.View>
                         <Animated.View style={{ opacity: textOpacity, transform: [{ translateX: translationRightX }] }}>
-                            <Text style={styles.headerSub}>Single Parking Observation Tool</Text></Animated.View>
+                            <View style={styles.headerSubContainer}>
+                                <Text style={styles.headerSub}>Single Parking Observation Tool</Text>
+                            </View>
+                        </Animated.View>
                         <LocationInput style={styles.locationInput}
                             iconColor={Colors.primary}
                             placeholderColor={Colors.greyDark} />
                         <Animated.View style={{ opacity: buttonOpacity, transform: [{ translateY: translationUpY }] }}>
-                            <Button style={styles.button}><Text>Current Location <Entypo name="location" size={20}/></Text></Button>
+                            <Button style={styles.button}><Text>Current Location <Entypo name="location" size={20} /></Text></Button>
                         </Animated.View>
                     </View>
                 </ImageBackground>
@@ -126,12 +129,15 @@ const styles = StyleSheet.create({
         fontSize: width / 6,
         letterSpacing: width / 15
     },
-    headerSub: {
-        fontSize: width / 17,
-        color: Colors.white,
+    headerSubContainer: {
+        
         borderBottomColor: Colors.white,
         borderBottomWidth: 1,
         paddingBottom: 5
+    },
+    headerSub: {
+        color: Colors.white,
+        fontSize: width / 17,
     },
     locationInput: {
         marginTop: width / 20,

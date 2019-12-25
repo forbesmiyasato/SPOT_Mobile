@@ -14,12 +14,13 @@ const LocationInput = (props) => {
     useEffect(()=> {
         props.onChangeInput(input);
     }, [input])
-    
+
     return (
         <View style={{...styles.inputContainer, ...props.style }}>
             <TextInput placeholderTextColor={props.placeholderColor} 
             placeholder='Enter Location' 
             style={styles.searchBar} 
+            value={input}
             onChangeText={onChangeText}/> 
             <Ionicons style={styles.searchIcon} name="ios-search" size={30} color={props.iconColor} />
         </View>

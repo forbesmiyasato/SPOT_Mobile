@@ -6,12 +6,13 @@ import LocationInput from '../components/LocationInput';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
 import Button from '../components/Button';
 import Text from '../components/LatoText';
-
+import Config from '../config';
 const width = Dimensions.get('window').width;
 
+
 const LandingScreen = () => {
-    const [moveDistance, setMoveDistance] = useState(10);
     const [predictions, setPredictions] = useState([]);
+    const [location, setLocation] = useState(null);
 
     var textValue = new Animated.Value(0);
     var buttonMove = new Animated.Value(0);
@@ -60,10 +61,17 @@ const LandingScreen = () => {
         outputRange: [-100, 20, 0]
     })
 
-    const onLocationChange = (inputLocation) => {
-        // console.log(GOOGLE_API);
-        // console.log(inputLocation);
-        // `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=+Amphitheatre&key=${GOOGLE_API}&sessiontoken=1234567890`
+    async function onLocationChange (inputLocation) {
+        console.log(inputLocation);
+        console.log(Config.GOOGLE_API);
+        const API_URL = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${inputLocation}+Amphitheatre&key=${Config.GOOGLE_API}&sessiontoken=1234567890`;
+        try {
+        const result = await fetch(API_URL);
+        const json = await result.json();
+        console.log(json);
+        } catch (err){
+            console.log(err);
+        }
     };
 
     return (

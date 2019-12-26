@@ -1,42 +1,57 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, TouchableNativeFeedback, Platform, Dimensions } from 'react-native';
+import { TouchableOpacity, View, Text, StyleSheet, TouchableNativeFeedback, Platform, Dimensions, Animated } from 'react-native';
 import { Header } from 'react-navigation-stack';
+import FlipCard from 'react-native-flip-card';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height - Header.HEIGHT;
 
-const CategoryGridTile = props => {
+const ListItem = props => {
     let TouchableCmp = TouchableOpacity;
-    if (Platform.OS === 'android' && Platform.Version >= 21)
-    {
+    if (Platform.OS === 'android' && Platform.Version >= 21) {
         TouchableCmp = TouchableNativeFeedback;
     }
 
+    const spin = () => {
+        console.log("cicked");
+    };
+
     return (
-        <View style={styles.gridItem}>
-        <TouchableCmp style={{flex: 1}} onPress={props.onSelect}>
-            <View style={{...styles.container, ...{backgroundColor: props.color}}}>
+        <FlipCard
+            style={styles.gridItem}
+            perspective={1000}
+            flipHorizontal={true}
+            flipVertical={false}
+        >
+            <View style={{ ...styles.container, ...{ backgroundColor: props.color } }}>
                 <Text style={styles.title} numberOfLines={2}>{props.data.Name}</Text>
             </View>
-        </TouchableCmp>
-        </View>
+            <View style={{ ...styles.container, ...{ backgroundColor: props.color } }}>
+                <Text>Back</Text>
+            </View>
+        </FlipCard>
     )
 };
 
 const styles = StyleSheet.create({
     gridItem: {
-        flex: 0.5,
+        flex: 1,
         margin: width / 30,
         height: (height - (width / 30 * 8)) / 3,
         borderRadius: 10,
-        maxWidth: "43.333%"
+        width: width * 0.43333
+    },
+    front: {
+    },
+    back: {
     },
     container: {
         flex: 1,
+        width: '100%',
         borderRadius: 10,
         shadowColor: 'black',
         shadowOpacity: 0.26,
-        shadowOffset: { width: 0, height: 2},
+        shadowOffset: { width: 0, height: 2 },
         shadowRadius: 10,
         elevation: 5,
         padding: 10,
@@ -49,4 +64,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CategoryGridTile;
+export default ListItem;

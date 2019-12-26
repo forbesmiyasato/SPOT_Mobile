@@ -44,6 +44,7 @@ const DisplayScreen = props => {
             setParkingLots(ParkingLots);
     }, [])
 
+    console.log(parkingLots);
     return (
         <ListView data={parkingLots}/>
     )

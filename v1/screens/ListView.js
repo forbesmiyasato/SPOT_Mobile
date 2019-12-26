@@ -14,9 +14,13 @@ const ListScreen = props => {
         )
     }
 
+    console.log(props.data);
+    
     return (
         <View>
-        <FlatList  data={props.data} renderItem={renderGridItem} numColumns={2} />
+        <FlatList 
+         columnWrapperStyle={ styles.columnWrapper }
+         keyExtractor={(item, index) => item._id} data={props.data} renderItem={renderGridItem} numColumns={2} />
         </View>
     )
 }
@@ -28,6 +32,9 @@ const styles = StyleSheet.create({
     row: {
         flex: 1,
         justifyContent: 'space-around'
+    },
+    columnWrapper: {
+        justifyContent: 'space-between',
     }
 });
 

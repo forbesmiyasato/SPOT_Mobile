@@ -3,6 +3,7 @@ import { StyleSheet, Text } from 'react-native';
 import LandingScreen from './screens/LandingScreen';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
+import ScreenNavigator from './Navigation/Navigator';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -23,7 +24,7 @@ export default function App() {
   }
 
   return (
-    <LandingScreen />
+    <ScreenNavigator />
   );
 }
 

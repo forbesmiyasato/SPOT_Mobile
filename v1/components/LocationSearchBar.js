@@ -13,10 +13,10 @@ const LocationSearchBar = props => {
     const [predictions, setPredictions] = useState([]);
 
     async function onLocationChange(inputLocation) {
-        const API_URL = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=
-        ${inputLocation}&key=${Config.GOOGLE_API}&sessiontoken=1234567890components=country:us`;
+        const AUTOCOMPLETE_API_URL = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=
+        ${inputLocation}&key=${Config.GOOGLE_API}&sessiontoken=1234567890&components=country:us`;
         try {
-            const result = await fetch(API_URL);
+            const result = await fetch(AUTOCOMPLETE_API_URL);
             const json = await result.json();
             const predictions = json.predictions.slice(0, 3);
             setPredictions(predictions);
@@ -26,7 +26,22 @@ const LocationSearchBar = props => {
     };
     
     const onSelectLocation = (selectedLocation) => {
-        console.log(selectedLocation);
+        const DETAILS_API_URL = `https://maps.googleapis.com/maps/api/place/details/json?key=
+        ${Config.GOOGLE_API}&place_id=${selectedLocation}&sessiontoken=1234567890&fields=geometry`
+
+        fetch(DETAILS_API_URL).then((response) => {
+            return response.json()
+        }).then ((responseJson) => {
+            return (
+                props.navigation.navigate({
+                    routeName: 'DisplayScreen', params: {
+                        location: responseJson.result.geometry.location
+                    }
+                })
+            );
+        }).catch ( error => {
+            console.log(error);
+        })
     } 
 
     return (

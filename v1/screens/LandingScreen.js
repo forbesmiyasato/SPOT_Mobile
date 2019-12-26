@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ImageBackground, View, StyleSheet, Animated, Dimensions, TouchableWithoutFeedback, Keyboard, Easing, KeyboardAvoidingView } from 'react-native';
+import { ImageBackground, View, StyleSheet, Animated, Dimensions, TouchableWithoutFeedback, Keyboard, Easing, KeyboardAvoidingView, ShadowPropTypesIOS } from 'react-native';
 import Colors from '../constants/Colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
@@ -11,7 +11,7 @@ import LocationSearchBar from '../components/LocationSearchBar';
 const width = Dimensions.get('window').width;
 
 
-const LandingScreen = () => {
+const LandingScreen = (props) => {
 
     var textValue = new Animated.Value(0);
     var buttonMove = new Animated.Value(0);
@@ -82,7 +82,7 @@ const LandingScreen = () => {
                                 <Text style={styles.headerSub}>Single Parking Observation Tool</Text>
                             </View>
                         </Animated.View>
-                        <LocationSearchBar />
+                        <LocationSearchBar navigation={props.navigation} />
                         <Animated.View style={{ opacity: buttonOpacity, transform: [{ translateY: translationUpY }] }}>
                             <Button style={styles.button}><Text>Current Location <Entypo name="location" size={20} /></Text></Button>
                         </Animated.View>
@@ -92,6 +92,8 @@ const LandingScreen = () => {
         </TouchableWithoutFeedback>
     );
 }
+
+LandingScreen.navigationOptions = { headerShown: false };
 
 const styles = StyleSheet.create({
     container: {

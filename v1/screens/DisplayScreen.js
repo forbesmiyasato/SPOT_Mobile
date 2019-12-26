@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import Axios from 'axios';
 import ListView from './ListView';
 
+const baseUrl = Platform.OS === 'ios' ? 'https://bfedbd1c.ngrok.io/' : 'http://10.0.2.2:5000/';
 const DisplayScreen = props => {
     const [inputLocation, setInputLocation] = useState(props.navigation.getParam('location'));
     const [parkingLots, setParkingLots] = useState([]);
@@ -13,7 +14,7 @@ const DisplayScreen = props => {
             var ParkingLots = [];
             console.log("Start fetch");
             try {
-                const returnedParkingLots = await Axios.get('http://10.0.2.2:5000/ParkingLot/All');
+                const returnedParkingLots = await Axios.get(`${baseUrl}ParkingLot/All`);
                 ParkingLots = returnedParkingLots.data;
             } catch (error) {
                 console.log("fetch parking lots error:", error);
@@ -24,8 +25,8 @@ const DisplayScreen = props => {
                 const results = await Promise.all(ParkingLots.map(async (ParkingLot, i) => {
                     var destination = `${ParkingLot.Lat}/${ParkingLot.Lng}`;
                     var origin = `${inputLocation.lat}/${inputLocation.lng}`;
-                    const availability = await Axios.get(`http://10.0.2.2:5000/ParkingLot/${ParkingLot._id}/SnapShots/latest`);
-                    const distanceMatrix = await Axios.get(`http://10.0.2.2:5000/distancematrix/${origin}/${destination}`);
+                    const availability = await Axios.get(`${baseUrl}ParkingLot/${ParkingLot._id}/SnapShots/latest`);
+                    const distanceMatrix = await Axios.get(`${baseUrl}distancematrix/${origin}/${destination}`);
                     ParkingLots[i]["Availability"] = availability.data;
                     ParkingLots[i]["DistanceMatrix"] = distanceMatrix.data;
                     return Promise.resolve(1);
@@ -36,7 +37,7 @@ const DisplayScreen = props => {
 
             setParkingLots(ParkingLots);
         }
-        
+
         fetchParkingLots();
     }, [])
 

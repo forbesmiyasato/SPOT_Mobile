@@ -1,12 +1,15 @@
-import React from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import ListItem from '../components/ListViewListItem';
+import PredictionList from '../components/PredictionList';
 
 const ListScreen = props => {
+    const [receivedProps, setReceivedProps] = useState(props);
+
     const renderGridItem = (itemData) => {
         return (
             <ListItem
-            data={itemData.item} 
+            data={itemData.item}
             color='white'
             onSelect={() => {
                 console.log("clicked")
@@ -14,13 +17,14 @@ const ListScreen = props => {
         )
     }
 
-    console.log(props.data);
-    
     return (
         <View>
-        <FlatList 
-         columnWrapperStyle={ styles.columnWrapper }
-         keyExtractor={(item, index) => item._id} data={props.data} renderItem={renderGridItem} numColumns={2} />
+            <FlatList
+                columnWrapperStyle={styles.columnWrapper}
+                keyExtractor={item => item._id} 
+                data={props.data} 
+                renderItem={renderGridItem} 
+                numColumns={2} />
         </View>
     )
 }

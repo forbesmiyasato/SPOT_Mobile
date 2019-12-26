@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, TouchableNativeFeedback, Platform, Dimensions, Animated } from 'react-native';
 import { Header } from 'react-navigation-stack';
 import FlipCard from 'react-native-flip-card';
@@ -7,14 +7,16 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height - Header.HEIGHT;
 
 const ListItem = props => {
+    const [receivedProps, setReceivedProps] = useState(props);
+    // useEffect(() => {
+    //     console.log("ListItem")
+    //     setReceivedProps(props)
+    // }, [props])
+
     let TouchableCmp = TouchableOpacity;
     if (Platform.OS === 'android' && Platform.Version >= 21) {
         TouchableCmp = TouchableNativeFeedback;
     }
-
-    const spin = () => {
-        console.log("cicked");
-    };
 
     return (
         <FlipCard

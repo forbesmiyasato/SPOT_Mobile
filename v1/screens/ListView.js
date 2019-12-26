@@ -1,18 +1,22 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
+import ListItem from '../components/ListViewListItem';
 
 const ListScreen = props => {
     const renderGridItem = (itemData) => {
         return (
-            <View key={itemData.item._id}>
-            <Text style={styles.Name}>{itemData.item.Name}</Text>
-            </View>
+            <ListItem
+            data={itemData.item} 
+            color='white'
+            onSelect={() => {
+                console.log("clicked")
+            }} />
         )
     }
 
     return (
         <View>
-        <FlatList data={props.data} renderItem={renderGridItem} numColumns={2} />
+        <FlatList  data={props.data} renderItem={renderGridItem} numColumns={2} />
         </View>
     )
 }
@@ -20,6 +24,10 @@ const ListScreen = props => {
 const styles = StyleSheet.create({
     Name: {
         color: 'black'
+    },
+    row: {
+        flex: 1,
+        justifyContent: 'space-around'
     }
 });
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Dimensions, Keyboard, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, Text, Dimensions, Keyboard, Image, TouchableHighlight } from 'react-native';
 import Colors from '../constants/Colors';
 
 const width = Dimensions.get('window').width;
@@ -30,15 +30,19 @@ const PredictionList = props => {
     const list = (
         props.predictions.map((prediction, i) => {
             return (
-                <View key={prediction.id}
-                    style={(i === props.predictions.length - 1 ? { ...styles.textContainer, borderBottomWidth: 1 } : styles.textContainer)}>
-                    <Text style={styles.mainText}>
-                        {prediction.structured_formatting.main_text}
-                    </Text>
-                    <Text style={styles.subText}>
-                        {prediction.structured_formatting.secondary_text}
-                    </Text>
-                </View>
+                <TouchableHighlight key={prediction.id} 
+                onPress={props.onPress.bind(this, prediction.place_id)}>
+                    <View style={(i === props.predictions.length - 1 ?
+                            { ...styles.textContainer, borderBottomWidth: 1 }
+                            : styles.textContainer)}>
+                        <Text style={styles.mainText}>
+                            {prediction.structured_formatting.main_text}
+                        </Text>
+                        <Text style={styles.subText}>
+                            {prediction.structured_formatting.secondary_text}
+                        </Text>
+                    </View>
+                </TouchableHighlight>
             )
         }))
 
@@ -47,7 +51,7 @@ const PredictionList = props => {
             {isKeyboardVisible && props.predictions.length > 0 ? list : null}
             {isKeyboardVisible && props.predictions.length > 0 ?
                 <View style={styles.google}>
-                <Image source={require('../assets/powered_by_google_on_white.png')} />
+                    <Image source={require('../assets/powered_by_google_on_white.png')} />
                 </View>
                 : null}
         </View>

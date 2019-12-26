@@ -24,6 +24,10 @@ const LocationSearchBar = props => {
             console.log(err);
         }
     };
+    
+    const onSelectLocation = (selectedLocation) => {
+        console.log(selectedLocation);
+    } 
 
     return (
         <View>
@@ -31,7 +35,7 @@ const LocationSearchBar = props => {
                 iconColor={Colors.primary}
                 placeholderColor={Colors.greyDark}
                 onChangeInput={onLocationChange} />
-            <PredictionList style={styles.list}predictions={predictions} />
+            <PredictionList onPress={onSelectLocation} style={styles.list}predictions={predictions} />
         </View>
     )
 }

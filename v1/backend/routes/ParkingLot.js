@@ -3,7 +3,7 @@ let ParkingLot = require('../Models/ParkingLot');
 
 //Get JSON data for all parking lots
 router.route('/ParkingLot/All').get((req, res) => {
-    ParkingLot.find()
+    ParkingLot.find().select('-SnapShots')
         .then(location => res.json(location))
         .catch(err => res.status(400).json('Error:' + err));
 });

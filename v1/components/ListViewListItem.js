@@ -8,10 +8,6 @@ const height = Dimensions.get('window').height - Header.HEIGHT;
 
 const ListItem = props => {
     const [receivedProps, setReceivedProps] = useState(props);
-    // useEffect(() => {
-    //     console.log("ListItem")
-    //     setReceivedProps(props)
-    // }, [props])
 
     let TouchableCmp = TouchableOpacity;
     if (Platform.OS === 'android' && Platform.Version >= 21) {

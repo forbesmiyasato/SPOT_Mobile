@@ -85,7 +85,7 @@ const LandingScreen = (props) => {
                         </Animated.View>
                         <LocationSearchBar navigation={props.navigation} />
                         <Animated.View style={{ opacity: buttonOpacity, transform: [{ translateY: translationUpY }] }}>
-                            <Button style={styles.button}><Text>Current Location <Entypo name="location" size={20} /></Text></Button>
+                            <Button style={styles.button} fontSize={18}><Text>Current Location <Entypo name="location" size={20} /></Text></Button>
                         </Animated.View>
                     </View>
                 </ImageBackground>

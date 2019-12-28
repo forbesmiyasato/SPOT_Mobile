@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
     TouchableOpacity, View, Text, StyleSheet,
-    TouchableNativeFeedback, Platform, Dimensions, Image, ImageBackground
+    TouchableNativeFeedback, Platform, Dimensions, Image
 } from 'react-native';
 import { Header } from 'react-navigation-stack';
 import FlipCard from 'react-native-flip-card';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../constants/Colors';
+import Button from '../components/Button';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height - Header.HEIGHT;
@@ -29,15 +30,36 @@ const ListItem = props => {
             <View style={{ ...styles.container, ...{ backgroundColor: props.color } }}>
                 <Image source={{ uri: props.data.Image }} style={styles.image} />
                 <LinearGradient colors={[Colors.radient1, Colors.radient2]}
-                    style={styles.linearGradient}>
-                        <Text style={styles.title} numberOfLines={1}>{props.data.Name.replace('<br/>', '\n')}</Text>
+                    style={styles.linearGradientName}>
+                    <Text style={styles.title} numberOfLines={1}>{props.data.Name.replace('<br/>', '\n')}</Text>
                 </LinearGradient>
                 <View style={styles.details}>
-                    <Text>{props.data.Availability}</Text>
+                    <View style={styles.detailsLeft}>
+                        <Text style={styles.detailsHeader}>Open Parking:</Text>
+                        <Text style={styles.detailsData}>{props.data.Availability}</Text>
+                    </View>
+                    <View style={styles.detailsRight}>
+                        <Text style={styles.detailsHeader}>Distance:</Text>
+                        <Text style={styles.detailsData}>{props.data.DistanceMatrix.distance}</Text>
+                        <Text style={styles.detailsHeader}>Duration:</Text>
+                        <Text style={styles.detailsData}>{props.data.DistanceMatrix.duration}</Text>
+                        <Text style={styles.detailsData}>{props.data.DistanceMatrix.unit}</Text>
+                    </View>
                 </View>
             </View>
             <View style={{ ...styles.container, ...{ backgroundColor: props.color } }}>
-                <Text>Back</Text>
+                <LinearGradient colors={[Colors.radient1, Colors.radient2]}
+                    style={styles.linearGradientBackGround} />
+                <View style={styles.backTop}>
+
+                </View>
+                <View style={styles.backBottom}>
+                    <View style={styles.buttonContainer}>
+                        <Button style={styles.button} fontSize={14}>Get Directions</Button>
+                        <Button style={styles.button} fontSize={14}>See Statistics</Button>
+                    </View>
+                </View>
+
             </View>
         </FlipCard>
     )
@@ -65,31 +87,39 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 10,
         elevation: 5,
-        //padding: 10,
-        //justifyContent: 'flex-end',
-        //alignItems: 'flex-end'
     },
-    name: {
-        position: 'absolute',
-        top: '30%',
-        width: '60%',
-        right: 10
-        /*justifyContent: 'flex-end',
-        alignItems: 'flex-end',*/
+    detailsHeader: {
+        textAlign: 'center',
+        color: Colors.greyDark,
+        fontWeight: 'bold'
+    },
+    detailsData: {
+        color: Colors.greyDark
     },
     details: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    detailsLeft: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    detailsRight: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     title: {
         fontSize: 17,
-        //textAlign: 'right'
-        color: 'white'
+        color: 'white',
     },
     image: {
         width: "100%",
         height: "50%",
         resizeMode: 'cover'
     },
-    linearGradient: {
+    linearGradientName: {
         //padding: 5,
         height: '15%',
         width: '100%',
@@ -98,6 +128,29 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '35%',
         justifyContent: 'center'
+    },
+    linearGradientBackGround: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: '100%'
+    },
+    button: {
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        margin: 5
+    },
+    buttonContainer: {
+        width: "100%",
+        justifyContent: 'center',
+        alignItems: "center"
+    },
+    backTop: {
+        flex: 1
+    },
+    backBottom:{
+        flex: 1
     }
 });
 

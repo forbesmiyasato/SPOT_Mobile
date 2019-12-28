@@ -6,7 +6,7 @@ const Button = props => {
     return (
         <TouchableOpacity onPress={props.onPress}>
             <View style={{...styles.button, ...props.style}}>
-                <Text style={styles.buttonText}>{props.children}</Text>
+                <Text style={[styles.buttonText, {fontSize: props.fontSize}]}>{props.children}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: Colors.greyDark,
-        fontSize: 18
     }
 });
 

@@ -11,9 +11,7 @@ const ListScreen = props => {
             <ListItem
             data={itemData.item}
             color='white'
-            onSelect={() => {
-                console.log("clicked")
-            }} />
+            getDirection={props.getDirection} />
         )
     }
 

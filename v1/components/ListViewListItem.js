@@ -55,11 +55,11 @@ const ListItem = props => {
                 </View>
                 <View style={styles.backBottom}>
                     <View style={styles.buttonContainer}>
-                        <Button style={styles.button} fontSize={14}>Get Directions</Button>
+                        <Button style={styles.button} fontSize={14} 
+                        onPress={props.getDirection.bind(this, props.data.Lat, props.data.Lng)}>Get Directions</Button>
                         <Button style={styles.button} fontSize={14}>See Statistics</Button>
                     </View>
                 </View>
-
             </View>
         </FlipCard>
     )

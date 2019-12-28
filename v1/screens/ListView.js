@@ -6,12 +6,13 @@ import PredictionList from '../components/PredictionList';
 const ListScreen = props => {
     const [receivedProps, setReceivedProps] = useState(props);
 
-    const renderGridItem = (itemData) => {
+    const renderGridItem = (itemData, index) => {
         return (
             <ListItem
             data={itemData.item}
             color='white'
-            getDirection={props.getDirection} />
+            getDirection={props.getDirection}
+            index={index} />
         )
     }
 

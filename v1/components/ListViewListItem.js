@@ -8,6 +8,7 @@ import FlipCard from 'react-native-flip-card';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../constants/Colors';
 import Button from '../components/Button';
+import AvailabilityChart from '../components/AvailabilityChart';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height - Header.HEIGHT;
@@ -19,6 +20,8 @@ const ListItem = props => {
     if (Platform.OS === 'android' && Platform.Version >= 21) {
         TouchableCmp = TouchableNativeFeedback;
     }
+
+    const Occupied = props.data.TotalParkings - props.data.Availability;
 
     return (
         <FlipCard
@@ -51,7 +54,7 @@ const ListItem = props => {
                 <LinearGradient colors={[Colors.radient1, Colors.radient2]}
                     style={styles.linearGradientBackGround} />
                 <View style={styles.backTop}>
-
+                    <AvailabilityChart Open={props.data.Availability} Occupied={Occupied}/>
                 </View>
                 <View style={styles.backBottom}>
                     <View style={styles.buttonContainer}>
@@ -87,6 +90,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 10,
         elevation: 5,
+        overflow: 'hidden'
     },
     detailsHeader: {
         textAlign: 'center',
@@ -147,10 +151,14 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     backTop: {
-        flex: 1
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: "100%"
     },
     backBottom:{
-        flex: 1
+        flex: 1,
+        
     }
 });
 

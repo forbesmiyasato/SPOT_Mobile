@@ -6,14 +6,14 @@ const AvailabilityChart = (props) => {
     const data = [
         {
             name: "Open Parking",
-            Slots: props.Open,
+            Slots: parseInt(props.Open, 10),
             color: 'blue',
             legendFontColor: "#7F7F7F",
             legendFontSize: 10
         },
         {
             name: "Occupied Parking",
-            Slots: props.Occupied,
+            Slots: parseInt(props.Occupied, 10),
             color: 'red',
             legendFontColor: "#7F7F7F",
             legendFontSize: 10
@@ -33,7 +33,7 @@ const AvailabilityChart = (props) => {
             chartConfig={chartConfig}
             accessor="Slots"
             backgroundColor="transparent"
-            paddingLeft="15"
+            paddingLeft="30"
             hasLegend={false}
             absolute
         />

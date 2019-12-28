@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ImageBackground, View, StyleSheet, Animated, Dimensions, TouchableWithoutFeedback, Keyboard, Easing, KeyboardAvoidingView, ShadowPropTypesIOS } from 'react-native';
+import { ImageBackground, View, StyleSheet, Animated, Dimensions, 
+    TouchableWithoutFeedback, Keyboard, Easing, KeyboardAvoidingView} from 'react-native';
 import Colors from '../constants/Colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, FontAwesome } from '@expo/vector-icons';

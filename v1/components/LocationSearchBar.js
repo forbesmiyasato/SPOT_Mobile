@@ -7,13 +7,13 @@ import Config from '../config';
 
 const width = Dimensions.get('window').width;
 
-   //Generate unique session token to reduce request cost 
-        //(Formulate from "https://github.com/FaridSafi/react-native-google-places-autocomplete/issues/324")
+//Generate unique session token to reduce request cost 
+//(Formulate from "https://github.com/FaridSafi/react-native-google-places-autocomplete/issues/324")
 const createPlacesAutocompleteSessionToken = (a) => {
-        return a
-            ? (a ^ Math.random() * 16 >> a / 4).toString(16)
-            : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, createPlacesAutocompleteSessionToken);
-    };
+    return a
+        ? (a ^ Math.random() * 16 >> a / 4).toString(16)
+        : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, createPlacesAutocompleteSessionToken);
+};
 
 const LocationSearchBar = props => {
     const [predictions, setPredictions] = useState([]);
@@ -26,15 +26,19 @@ const LocationSearchBar = props => {
 
 
     async function onLocationChange(inputLocation) {
-        const AUTOCOMPLETE_API_URL = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=
+        if (inputLocation !== "") {
+            const AUTOCOMPLETE_API_URL = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=
         ${inputLocation}&key=${Config.GOOGLE_API}&sessiontoken=${sessionToken}&components=country:us`;
-        try {
-            const result = await fetch(AUTOCOMPLETE_API_URL);
-            const json = await result.json();
-            const predictions = json.predictions.slice(0, 3);
-            setPredictions(predictions);
-        } catch (err) {
-            console.log(err);
+            try {
+                const result = await fetch(AUTOCOMPLETE_API_URL);
+                const json = await result.json();
+                const predictions = json.predictions.slice(0, 3);
+                setPredictions(predictions);
+            } catch (err) {
+                console.log(err);
+            }
+
+            console.log("made autocomplete request");
         }
     };
 
@@ -45,6 +49,7 @@ const LocationSearchBar = props => {
         fetch(DETAILS_API_URL).then((response) => {
             return response.json()
         }).then((responseJson) => {
+            console.log("Made detail request");
             return (
                 props.navigation.navigate({
                     routeName: 'DisplayScreen', params: {
@@ -55,6 +60,7 @@ const LocationSearchBar = props => {
         }).catch(error => {
             console.log(error);
         })
+
     }
 
     return (

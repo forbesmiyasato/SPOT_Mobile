@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import Axios from 'axios';
 import ListView from './ListView';
 
+
 const baseUrl = Platform.OS === 'ios' ? 'https://bfedbd1c.ngrok.io/' : 'http://10.0.2.2:5000/';
 const DisplayScreen = props => {
     const [inputLocation, setInputLocation] = useState(props.navigation.getParam('location'));

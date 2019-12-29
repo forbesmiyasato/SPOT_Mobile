@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import ListItem from '../components/ListViewListItem';
-import PredictionList from '../components/PredictionList';
 
 const ListScreen = props => {
-    const [receivedProps, setReceivedProps] = useState(props);
 
     const renderGridItem = (itemData, index) => {
         return (

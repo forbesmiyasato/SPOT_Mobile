@@ -24,7 +24,7 @@ const LocationSearchBar = props => {
         setSessionToken(createPlacesAutocompleteSessionToken());
     }, [])
 
-
+    //When search bar input changes, we make a new autocomplete request to get new predictons for user.
     async function onLocationChange(inputLocation) {
         if (inputLocation !== "") {
             const AUTOCOMPLETE_API_URL = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=
@@ -42,6 +42,7 @@ const LocationSearchBar = props => {
         }
     };
 
+    //When the user selects an autocomplete returned location that's rendered on the prediction list.
     const onSelectLocation = (selectedLocation) => {
         const DETAILS_API_URL = `https://maps.googleapis.com/maps/api/place/details/json?key=
         ${Config.GOOGLE_API}&place_id=${selectedLocation}&sessiontoken=${sessionToken}&fields=geometry`
@@ -50,6 +51,7 @@ const LocationSearchBar = props => {
             return response.json()
         }).then((responseJson) => {
             console.log("Made detail request");
+            //Redirects to display screen
             return (
                 props.navigation.navigate({
                     routeName: 'DisplayScreen', params: {

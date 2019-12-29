@@ -11,6 +11,7 @@ const LocationInput = (props) => {
         setInput(text);
     }
 
+    //Fire parent's handle input change function everytime input changes
     useEffect(()=> {
         props.onChangeInput(input);
     }, [input])

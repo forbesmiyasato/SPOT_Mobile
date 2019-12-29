@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
     TouchableOpacity, View, Text, StyleSheet,
     TouchableNativeFeedback, Platform, Dimensions, Image
@@ -14,12 +14,11 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height - Header.HEIGHT;
 
 const ListItem = props => {
-    const [receivedProps, setReceivedProps] = useState(props);
 
-    let TouchableCmp = TouchableOpacity;
+    /*let TouchableCmp = TouchableOpacity;
     if (Platform.OS === 'android' && Platform.Version >= 21) {
         TouchableCmp = TouchableNativeFeedback;
-    }
+    }*/
 
     const Occupied = props.data.TotalParkings - props.data.Availability;
 

@@ -13,6 +13,7 @@ const fetchFonts = () => {
 
 export default function App() {
 
+  //App doesn't start until fonts are loaded
   const [dataLoaded, setDataLoaded] = useState(false);
   if (!dataLoaded) {
     return (

@@ -14,6 +14,7 @@ const width = Dimensions.get('window').width;
 
 const LandingScreen = (props) => {
 
+    //Animations once the landing screen is loaded
     var textValue = new Animated.Value(0);
     var buttonMove = new Animated.Value(0);
     var buttonAnimatedOpacity = new Animated.Value(0);
@@ -94,6 +95,7 @@ const LandingScreen = (props) => {
     );
 }
 
+//Landing screen doesn't want a header
 LandingScreen.navigationOptions = { headerShown: false };
 
 const styles = StyleSheet.create({

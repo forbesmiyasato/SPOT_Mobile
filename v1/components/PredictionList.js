@@ -5,6 +5,9 @@ import Colors from '../constants/Colors';
 const width = Dimensions.get('window').width;
 
 const PredictionList = props => {
+
+    /*To handle whether keyboard is visible, important because we don't want to render the list 
+      if keyboard is visible*/
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
     useEffect(() => {
@@ -27,12 +30,13 @@ const PredictionList = props => {
         };
     }, []);
 
+    //The list of predictions returned from API
     const list = (
         props.predictions.map((prediction, i) => {
             return (
                 <TouchableHighlight key={prediction.id} 
                 onPress={props.onPress.bind(this, prediction.place_id)}>
-                    <View style={(i === props.predictions.length - 1 ?
+                    <View style={(i === props.predictions.length - 1 ? //Only last prediction needs border bottom
                             { ...styles.textContainer, borderBottomWidth: 1 }
                             : styles.textContainer)}>
                         <Text style={styles.mainText}>
@@ -46,6 +50,7 @@ const PredictionList = props => {
             )
         }))
 
+    //if keyboard isn't visible we don't render the list. Google logo is necessary due to Google policies. 
     return (
         <View style={{ ...styles.list, ...props.style }}>
             {isKeyboardVisible && props.predictions.length > 0 ? list : null}

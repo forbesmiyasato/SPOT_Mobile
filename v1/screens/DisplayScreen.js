@@ -13,6 +13,7 @@ const DisplayScreen = props => {
     const [parkingLots, setParkingLots] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
+    //When get direction button is clicked in both the list and map view
     const handleGetDirection = (destinationLat, destinationLng) => {
         console.log(inputLocation);
         const DirectionData = {
@@ -38,6 +39,7 @@ const DisplayScreen = props => {
         Directions(DirectionData);
     }
 
+    //Fetch data from backend once the component mounts
     useEffect(() => {
         const fetchParkingLots = async () => {
             var ParkingLots = [];

@@ -6,7 +6,6 @@ import { Header } from 'react-navigation-stack';
 import Colors from '../constants/Colors';
 
 const deviceHeight = Dimensions.get('window').height - Header.HEIGHT;
-
 const deviceWidth = Dimensions.get('window').width
 
 const AvailabilityChart = (props) => {

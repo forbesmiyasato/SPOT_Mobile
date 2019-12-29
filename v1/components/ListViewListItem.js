@@ -152,9 +152,7 @@ const styles = StyleSheet.create({
     },
     backTop: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: "100%"
+        justifyContent: 'center'
     },
     backBottom:{
         flex: 1,

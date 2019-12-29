@@ -1,42 +1,81 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
-import { PieChart } from 'react-native-chart-kit';
+import React, { useState } from 'react';
+import { Text as InsideText, Dimensions, View } from 'react-native';
+import { PieChart } from 'react-native-svg-charts'
+import { Text } from 'react-native-svg';
+import { Header } from 'react-navigation-stack';
+import Colors from '../constants/Colors';
+
+const deviceHeight = Dimensions.get('window').height - Header.HEIGHT;
+
+const deviceWidth = Dimensions.get('window').width
 
 const AvailabilityChart = (props) => {
+    const [labelWidth, setLabelWidth] = useState(0);
+    const [labelHeight, setLabelHeight] = useState(0);
+    console.log(props);
     const data = [
         {
-            name: "Open Parking",
-            Slots: parseInt(props.Open, 10),
-            color: 'blue',
-            legendFontColor: "#7F7F7F",
-            legendFontSize: 10
+            key: 1,
+            amount: props.Open,
+            svg: { fill: Colors.primary },
         },
         {
-            name: "Occupied Parking",
-            Slots: parseInt(props.Occupied, 10),
-            color: 'red',
-            legendFontColor: "#7F7F7F",
-            legendFontSize: 10
+            key: 2,
+            amount: props.Occupied,
+            svg: { fill: 'red' }
         }
     ]
 
-    const chartConfig = {
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-        //strokeWidth: 2, // optional, default 3
+    const Labels = ({ slices, height, width }) => {
+        return slices.map((slice, index) => {
+            const { labelCentroid, pieCentroid, data } = slice;
+            return (
+                <Text
+                    key={index}
+                    x={pieCentroid[0]}
+                    y={pieCentroid[1]}
+                    fill={'white'}
+                    textAnchor={'middle'}
+                    alignmentBaseline={'middle'}
+                    fontSize={15}
+                    stroke={'black'}
+                    strokeWidth={0.2}
+                >
+                    {data.amount}
+                </Text>
+            )
+        })
     }
+
+    //calculate open parking percentage to display
+    const OpenParkings = parseInt(props.Open);
+    const OccupiedParkings = parseInt(props.Occupied);
+    const TotalParkings = OpenParkings + OccupiedParkings;
+    const percent = OpenParkings / TotalParkings * 100;
+    const display = percent.toString() + "%";
 
     return (
         <PieChart
+            style={{ height: "80%" }}
+            valueAccessor={({ item }) => item.amount}
             data={data}
-            width={Dimensions.get('window').width / 4.5}
-            height={Dimensions.get('window').width / 4.5}
-            chartConfig={chartConfig}
-            accessor="Slots"
-            backgroundColor="transparent"
-            paddingLeft="30"
-            hasLegend={false}
-            absolute
-        />
+            spacing={0}
+            outerRadius={'95%'}
+        >
+            <InsideText
+                onLayout={({ nativeEvent: { layout: { width, height } } }) => {
+                    setLabelWidth(width);
+                    setLabelHeight(height);
+                }}
+                style={{
+                    position: 'absolute',
+                    top: (deviceHeight - (deviceWidth / 30 * 8)) / 3 / 4 - labelHeight,
+                    left: (deviceWidth * 0.43333 / 2) - labelWidth / 2,
+                    textAlign: 'center',
+                    color: Colors.greyDark
+                }}>{display}</InsideText>
+            <Labels />
+        </PieChart>
     )
 }
 

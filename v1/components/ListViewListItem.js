@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     TouchableOpacity, View, Text, StyleSheet,
     TouchableNativeFeedback, Platform, Dimensions, Image
@@ -14,7 +14,6 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height - Header.HEIGHT;
 
 const ListItem = props => {
-
     /*let TouchableCmp = TouchableOpacity;
     if (Platform.OS === 'android' && Platform.Version >= 21) {
         TouchableCmp = TouchableNativeFeedback;
@@ -59,7 +58,8 @@ const ListItem = props => {
                     <View style={styles.buttonContainer}>
                         <Button style={styles.button} fontSize={14} 
                         onPress={props.getDirection.bind(this, props.data.Lat, props.data.Lng)}>Get Directions</Button>
-                        <Button style={styles.button} fontSize={14}>See Statistics</Button>
+                        <Button style={styles.button} fontSize={14}
+                        onPress={props.showStatistics}>See Statistics</Button>
                     </View>
                 </View>
             </View>

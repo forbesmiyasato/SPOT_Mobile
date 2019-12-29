@@ -11,7 +11,7 @@ const deviceWidth = Dimensions.get('window').width
 const AvailabilityChart = (props) => {
     const [labelWidth, setLabelWidth] = useState(0);
     const [labelHeight, setLabelHeight] = useState(0);
-    console.log(props);
+    //console.log(props);
     const data = [
         {
             key: 1,

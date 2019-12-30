@@ -26,7 +26,7 @@ const StatisticsModal = props => {
             var hour;
             var totalPerHour = new Array(24).fill(0);
             var countPerHour = new Array(24).fill(0);
-            var averagePerHour = new Array(24);
+            var averagePerHour = new Array(24).fill(0);
             statistics.map((data) => {
                 var utcTime = data.timestamp;
                 hour = parseInt(utcTime.substring(11, 13)) - 7 < 0 ? 
@@ -50,7 +50,7 @@ const StatisticsModal = props => {
             <View
             style={styles.modal}>
                 <BarChart data={statistics} />
-                <Button onPress={props.closeModal} title="Hide Modal"/>
+                <Button onPress={props.closeModal} title="Close"/>
             </View>
         </Modal>
     )
@@ -60,14 +60,20 @@ const styles = StyleSheet.create({
     modal: {
         position: 'absolute',
         top: '20%',
-        left: '5%',
-        width: "90%",
-        height: "60%",
+        left: '2.5%',
+        width: "95%",
+        height: "50%",
         justifyContent: 'center',
         alignItems: 'center',
         padding: 5,
         backgroundColor: 'white',
-        margin: 0
+        margin: 0,
+        borderRadius: 20,
+        shadowColor: 'black',
+        shadowOpacity: 0.26,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 10,
+        elevation: 5,
     }
 });
 export default StatisticsModal;

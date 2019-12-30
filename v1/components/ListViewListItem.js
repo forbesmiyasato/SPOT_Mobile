@@ -59,7 +59,7 @@ const ListItem = props => {
                         <Button style={styles.button} fontSize={14} 
                         onPress={props.getDirection.bind(this, props.data.Lat, props.data.Lng)}>Get Directions</Button>
                         <Button style={styles.button} fontSize={14}
-                        onPress={props.showStatistics}>See Statistics</Button>
+                        onPress={props.showStatistics.bind(this, props.data._id)}>See Statistics</Button>
                     </View>
                 </View>
             </View>

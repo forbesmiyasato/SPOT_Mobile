@@ -18,7 +18,7 @@ const chartConfig = {
     labelColor: (opacity = 1) => Colors.greyDark,
     strokeWidth: 0, // optional, default 3
     barPercentage: 0.3,
-    decimalPlaces: 0
+    decimalPlaces: 2
 };
 const StatisticsChart = props => {
 

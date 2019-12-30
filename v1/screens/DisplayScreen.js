@@ -7,7 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Directions from 'react-native-google-maps-directions';
 
 //iOS baseURL changes everytime launching via Ngrok
-const baseUrl = Platform.OS === 'ios' ? 'https://5e602b58.ngrok.io/' : 'http://10.0.2.2:5000/';
+const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
 const DisplayScreen = props => {
     const [inputLocation, setInputLocation] = useState(props.navigation.getParam('location'));
     const [parkingLots, setParkingLots] = useState([]);

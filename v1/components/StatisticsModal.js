@@ -4,7 +4,7 @@ import Axios from 'axios';
 import BarChart from '../components/BarChart';
 
 //iOS baseURL changes everytime launching via Ngrok
-const baseUrl = Platform.OS === 'ios' ? 'https://5e602b58.ngrok.io/' : 'http://10.0.2.2:5000/';
+const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
 
 const StatisticsModal = props => {
     const [statistics, setStatistics] = useState([]);
@@ -33,6 +33,11 @@ const StatisticsModal = props => {
                 parseInt(utcTime.substring(11, 13)) - 7 + 24 : 
                 parseInt(utcTime.substring(11, 13)) - 7;
                 var openParkings = parseInt(data.OpenParkings);
+                hour--;
+                if (hour === -1)
+                {
+                    hour = 23;
+                }
                 totalPerHour[hour] += openParkings;
                 countPerHour[hour]++;
                 averagePerHour[hour] = parseInt((totalPerHour[hour] / countPerHour[hour]).toFixed(2));

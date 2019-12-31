@@ -11,7 +11,7 @@ const StatisticsModal = props => {
     const [averageArray, setAverageArray] = useState([]);
     const [highestArray, setHighestArray] = useState([]);
     const [lowestArray, setLowestArray] = useState([]);
-
+    const [canRenderDashboard, setCanRenderDashboard] = useState(false)
     useEffect(() => {
         const fetchStatistics = async () => {
             console.log("fetching parking lot statistics");
@@ -30,8 +30,8 @@ const StatisticsModal = props => {
             var totalPerHour = new Array(24).fill(0);
             var countPerHour = new Array(24).fill(0);
             var averagePerHour = new Array(24);
-            var highestPerHour = new Array(24).fill({x: 0, y: 0});
-            var lowestPerHour = new Array(24).fill({x: 0, y:100});
+            var highestPerHour = new Array(24).fill({ x: 0, y: 0 });
+            var lowestPerHour = new Array(24).fill({ x: 0, y: 100 });
             var highest;
             var lowest;
             results.map((data) => {
@@ -41,20 +41,18 @@ const StatisticsModal = props => {
                     parseInt(utcTime.substring(11, 13)) - 7;
                 var openParkings = parseInt(data.OpenParkings);
                 hour--;
-                if (hour === -1)
-                {
+                if (hour === -1) {
                     hour = 23;
                 }
                 totalPerHour[hour] += openParkings;
                 countPerHour[hour]++;
-                var average = {x: hour, y: parseFloat((totalPerHour[hour] / countPerHour[hour]).toFixed(2))}
+                var average = { x: hour, y: parseFloat((totalPerHour[hour] / countPerHour[hour]).toFixed(2)) }
                 if (openParkings > highestPerHour[hour].y) {
-                    highest = {x: hour, y: openParkings};
+                    highest = { x: hour, y: openParkings };
                     highestPerHour[hour] = highest;
                 }
-                if (openParkings < lowestPerHour[hour].y)
-                {
-                    lowest = {x: hour, y: openParkings};
+                if (openParkings < lowestPerHour[hour].y) {
+                    lowest = { x: hour, y: openParkings };
                     lowestPerHour[hour] = lowest;
                 }
                 averagePerHour[hour] = average;
@@ -62,6 +60,7 @@ const StatisticsModal = props => {
             setAverageArray(averagePerHour);
             setHighestArray(highestPerHour);
             setLowestArray(lowestPerHour);
+            setCanRenderDashboard(true);
         }
 
         getData();
@@ -72,7 +71,10 @@ const StatisticsModal = props => {
         >
             <View
                 style={styles.modal}>
-                <Dashboard average={averageArray} highest={highestArray} lowest={lowestArray}/>
+                {canRenderDashboard ? 
+                    <Dashboard average={averageArray} highest={highestArray} lowest={lowestArray} />
+                    : null
+                }
                 <Button onPress={props.closeModal} title="Close" />
             </View>
         </Modal>

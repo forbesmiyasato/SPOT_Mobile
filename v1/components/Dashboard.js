@@ -8,18 +8,23 @@ const Dashboard = props => {
     const [extraForAverage, setExtraForAverage] = useState([]);
 
     console.log(props.lowest);
-    useEffect(() => {
-        const TempExtraHighest = new Array(24);
-        const TempExtraAverage = new Array(24);
 
-        props.average.map((data, i) => {
-            TempExtraHighest[i] = props.highest[i].y - data.y;
-            TempExtraAverage[i] = data.y - props.lowest[i].y;
-        })
-        setExtraForHighest(TempExtraHighest);
-        setExtraForAverage(TempExtraAverage);
-        console.log(TempExtraAverage);
+    useEffect(() => {
+        console.log("Did Mount")
+        const setLengths = () => {
+            const TempExtraHighest = new Array(24);
+            const TempExtraAverage = new Array(24);
+
+            props.average.map((data, i) => {
+                TempExtraHighest[i] = props.highest[i].y - data.y;
+                TempExtraAverage[i] = data.y - props.lowest[i].y;
+            })
+            setExtraForHighest(TempExtraHighest);
+            setExtraForAverage(TempExtraAverage);
+        }
+        setLengths();
     }, [])
+
     return (
         <View style={styles.container}>
             <VictoryChart

@@ -12,6 +12,7 @@ web-report/
 
 #api keys
 .env
+/app.json
 
 # macOS
 .DS_Store

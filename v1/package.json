@@ -25,7 +25,8 @@
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3",
     "rn-toggle-switch": "^1.0.2",
-    "victory-native": "^34.0.0"
+    "victory-native": "^34.0.0",
+    "react-native-maps": "0.26.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

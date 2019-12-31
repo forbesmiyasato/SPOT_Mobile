@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground, View, Text, StyleSheet, Platform } from 'react-native';
+import { ImageBackground, View, Text, StyleSheet, Platform, Button } from 'react-native';
 import Axios from 'axios';
 import ListView from './ListView';
 import Colors from '../constants/Colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import Directions from 'react-native-google-maps-directions';
+import ToggleSwitch from 'rn-toggle-switch';
+import MapView from './MapView';
 
 //iOS baseURL changes everytime launching via Ngrok
 const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
-const DisplayScreen = props => {
+const DisplayScreen = (props) => {
     const [inputLocation, setInputLocation] = useState(props.navigation.getParam('location'));
     const [parkingLots, setParkingLots] = useState([]);
-    const [isLoading, setLoading] = useState(true);
+    const [toggleView, setToggleView] = useState(false); //false - list, true - map
 
+    //When the toggle button is clicked
+    const handleButtonToggle = () => {
+        console.log("Clicked");
+        setToggleView((current) => !current);
+    }
     //When get direction button is clicked in both the list and map view
     const handleGetDirection = (destinationLat, destinationLng) => {
         console.log(inputLocation);
@@ -70,19 +77,43 @@ const DisplayScreen = props => {
         }
 
         fetchParkingLots();
+
+        props.navigation.setParams({switchClicked : handleButtonToggle})
     }, [])
 
-    console.log(parkingLots);
+    // console.log(parkingLots);
 
     return (
         <ImageBackground source={require('../assets/ShowPageImage.jpg')}
             style={{ width: '100%', height: '100%' }}>
             <LinearGradient colors={[Colors.radient1, Colors.radient2]}
                 style={styles.linearGradient} />
-            <ListView data={parkingLots} getDirection={handleGetDirection}/>
+            {toggleView
+                ? <MapView />
+                : <ListView data={parkingLots} getDirection={handleGetDirection} />
+            }
         </ImageBackground>
     )
 }
+
+DisplayScreen.navigationOptions = (navData) => {
+    console.log(navData)
+    return {
+        headerTitle: "Parking Lots",
+        headerRight:
+            <ToggleSwitch
+                text={{ on: 'List', off: 'Map', activeTextColor: 'white', inactiveTextColor: 'white' }}
+                textStyle={{ fontWeight: 'bold' }}
+                color={{ indicator: 'white', active: Colors.primaryLight, inactive: Colors.primaryDark, 
+                activeBorder: Colors.primaryLight, inactiveBorder: Colors.primaryDark }}
+                active={true}
+                disabled={false}
+                width={50}
+                radius={25}
+                onValueChange={() => {navData.navigation.getParam('switchClicked')()}}
+            />
+    };
+};
 
 const styles = StyleSheet.create({
     linearGradient: {

@@ -1,27 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryStack, VictoryAxis } from "victory-native";
-import victoryChart from "victory-native/lib/components/victory-chart";
-
-
-
-const data = [
-    { quarter: 1, earnings: 13000 },
-    { quarter: 2, earnings: 16500 },
-    { quarter: 3, earnings: 14250 },
-    { quarter: 4, earnings: 19000 }
-];
+import Colors from '../constants/Colors';
 
 const Dashboard = props => {
-    // console.log(props.data);
-    // labels=['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM',
-    // '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM',
-    // '10 PM', '11 PM', '12 AM'];
+    console.log(props.highest[0].y);
 
+    const [extraHeight, setExtraHeight] = useState([]);
+
+    useEffect(() => {
+        const tempExtra = new Array(24);
+        props.average.map((data, i) => {
+            tempExtra[i] = props.highest[i].y - data.y;
+        })
+        setExtraHeight(tempExtra);
+    }, [])
     return (
         <View style={styles.container}>
             <VictoryChart
-            domainPadding={{x: [20, 20]}} >
+                domainPadding={{ x: [20, 20] }} >
                 <VictoryAxis
                     label="Time"
                     tickValues={['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM',
@@ -38,9 +35,13 @@ const Dashboard = props => {
                     }}
                 />
                 <VictoryStack
-                    >
+                    colorScale={[Colors.primaryLight, Colors.primary, "gold"]}
+                >
+
                     <VictoryBar
-                        data={props.data} />
+                        data={props.average} />
+                    <VictoryBar
+                        data={extraHeight} />
                 </VictoryStack>
             </VictoryChart>
         </View>

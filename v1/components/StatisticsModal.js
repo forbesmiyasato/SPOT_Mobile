@@ -8,7 +8,9 @@ import Dashboard from '../components/Dashboard';
 const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
 
 const StatisticsModal = props => {
-    const [statistics, setStatistics] = useState([]);
+    const [averageArray, setAverageArray] = useState([]);
+    const [highestArray, setHighestArray] = useState([]);
+    const [lowestArray, setLowestArray] = useState([]);
 
     useEffect(() => {
         const fetchStatistics = async () => {
@@ -19,7 +21,7 @@ const StatisticsModal = props => {
             return results.data;
         }
 
-        const getAveragePerHour = async () => {
+        const getData = async () => {
             const results = await fetchStatistics().then((result) => {
                 return result;
             });
@@ -27,7 +29,11 @@ const StatisticsModal = props => {
             var hour;
             var totalPerHour = new Array(24).fill(0);
             var countPerHour = new Array(24).fill(0);
-            var averagePerHour = new Array(24)
+            var averagePerHour = new Array(24);
+            var highestPerHour = new Array(24).fill({x: 0, y: 0});
+            var lowestPerHour = new Array(24);
+            var highest;
+            var lowest;
             results.map((data) => {
                 var utcTime = data.timestamp;
                 hour = parseInt(utcTime.substring(11, 13)) - 7 < 0 ?
@@ -35,22 +41,24 @@ const StatisticsModal = props => {
                     parseInt(utcTime.substring(11, 13)) - 7;
                 var openParkings = parseInt(data.OpenParkings);
                 hour--;
-                if (hour === -1) {
+                if (hour === -1)
+                {
                     hour = 23;
                 }
                 totalPerHour[hour] += openParkings;
                 countPerHour[hour]++;
-                // console.log(hour);
-                // console.log(openParkings);
-                var temp = {x: hour, y: parseInt((totalPerHour[hour] / countPerHour[hour]).toFixed(2))}
-                // averagePerHour[hour].x = 1;
-                // averagePerHour[hour].y = parseInt((totalPerHour[hour] / countPerHour[hour]).toFixed(2));
-                averagePerHour[hour] = temp;
+                var average = {x: hour, y: parseFloat((totalPerHour[hour] / countPerHour[hour]).toFixed(2))}
+                if (openParkings > highestPerHour[hour].y) {
+                    highest = {x: hour, y: openParkings};
+                    highestPerHour[hour] = highest;
+                }
+                averagePerHour[hour] = average;
             })
-            setStatistics(averagePerHour);
+            setAverageArray(averagePerHour);
+            setHighestArray(highestPerHour);
         }
 
-        getAveragePerHour();
+        getData();
     }, [])
     return (
         <Modal visible={props.show}
@@ -58,7 +66,7 @@ const StatisticsModal = props => {
         >
             <View
                 style={styles.modal}>
-                <Dashboard data={statistics} />
+                <Dashboard average={averageArray} highest={highestArray}/>
                 <Button onPress={props.closeModal} title="Close" />
             </View>
         </Modal>

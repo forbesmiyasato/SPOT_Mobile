@@ -4,16 +4,21 @@ import { VictoryBar, VictoryChart, VictoryTheme, VictoryStack, VictoryAxis } fro
 import Colors from '../constants/Colors';
 
 const Dashboard = props => {
-    console.log(props.highest[0].y);
+    const [extraForHighest, setExtraForHighest] = useState([]);
+    const [extraForAverage, setExtraForAverage] = useState([]);
 
-    const [extraHeight, setExtraHeight] = useState([]);
-
+    console.log(props.lowest);
     useEffect(() => {
-        const tempExtra = new Array(24);
+        const TempExtraHighest = new Array(24);
+        const TempExtraAverage = new Array(24);
+
         props.average.map((data, i) => {
-            tempExtra[i] = props.highest[i].y - data.y;
+            TempExtraHighest[i] = props.highest[i].y - data.y;
+            TempExtraAverage[i] = data.y - props.lowest[i].y;
         })
-        setExtraHeight(tempExtra);
+        setExtraForHighest(TempExtraHighest);
+        setExtraForAverage(TempExtraAverage);
+        console.log(TempExtraAverage);
     }, [])
     return (
         <View style={styles.container}>
@@ -35,13 +40,14 @@ const Dashboard = props => {
                     }}
                 />
                 <VictoryStack
-                    colorScale={[Colors.primaryLight, Colors.primary, "gold"]}
+                    colorScale={[Colors.primaryLight, Colors.primary, Colors.primaryDark]}
                 >
-
                     <VictoryBar
-                        data={props.average} />
+                        data={props.lowest} />
                     <VictoryBar
-                        data={extraHeight} />
+                        data={extraForAverage} />
+                    <VictoryBar
+                        data={extraForHighest} />
                 </VictoryStack>
             </VictoryChart>
         </View>

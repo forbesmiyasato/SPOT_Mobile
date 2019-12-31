@@ -31,7 +31,7 @@ const StatisticsModal = props => {
             var countPerHour = new Array(24).fill(0);
             var averagePerHour = new Array(24);
             var highestPerHour = new Array(24).fill({x: 0, y: 0});
-            var lowestPerHour = new Array(24);
+            var lowestPerHour = new Array(24).fill({x: 0, y:100});
             var highest;
             var lowest;
             results.map((data) => {
@@ -52,10 +52,16 @@ const StatisticsModal = props => {
                     highest = {x: hour, y: openParkings};
                     highestPerHour[hour] = highest;
                 }
+                if (openParkings < lowestPerHour[hour].y)
+                {
+                    lowest = {x: hour, y: openParkings};
+                    lowestPerHour[hour] = lowest;
+                }
                 averagePerHour[hour] = average;
             })
             setAverageArray(averagePerHour);
             setHighestArray(highestPerHour);
+            setLowestArray(lowestPerHour);
         }
 
         getData();
@@ -66,7 +72,7 @@ const StatisticsModal = props => {
         >
             <View
                 style={styles.modal}>
-                <Dashboard average={averageArray} highest={highestArray}/>
+                <Dashboard average={averageArray} highest={highestArray} lowest={lowestArray}/>
                 <Button onPress={props.closeModal} title="Close" />
             </View>
         </Modal>

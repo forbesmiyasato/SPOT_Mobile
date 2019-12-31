@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {Modal, View, Text, StyleSheet, Button} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Modal, View, Text, StyleSheet, Button } from 'react-native';
 import Axios from 'axios';
 import BarChart from '../components/BarChart';
+import Dashboard from '../components/Dashboard';
 
 //iOS baseURL changes everytime launching via Ngrok
 const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
@@ -9,40 +10,43 @@ const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://1
 const StatisticsModal = props => {
     const [statistics, setStatistics] = useState([]);
 
-    useEffect(()=> {
+    useEffect(() => {
         const fetchStatistics = async () => {
             console.log("fetching parking lot statistics");
             const results = await Axios.get(`${baseUrl}ParkingLot/${props.parkingLotID}/SnapShots/All`);
-            
+
             console.log("done fetching parking lot statistics");
             return results.data;
         }
 
         const getAveragePerHour = async () => {
-            const statistics = await fetchStatistics().then((result)=> {
+            const results = await fetchStatistics().then((result) => {
                 return result;
             });
 
             var hour;
             var totalPerHour = new Array(24).fill(0);
             var countPerHour = new Array(24).fill(0);
-            var averagePerHour = new Array(24).fill(0);
-            statistics.map((data) => {
+            var averagePerHour = new Array(24)
+            results.map((data) => {
                 var utcTime = data.timestamp;
-                hour = parseInt(utcTime.substring(11, 13)) - 7 < 0 ? 
-                parseInt(utcTime.substring(11, 13)) - 7 + 24 : 
-                parseInt(utcTime.substring(11, 13)) - 7;
+                hour = parseInt(utcTime.substring(11, 13)) - 7 < 0 ?
+                    parseInt(utcTime.substring(11, 13)) - 7 + 24 :
+                    parseInt(utcTime.substring(11, 13)) - 7;
                 var openParkings = parseInt(data.OpenParkings);
                 hour--;
-                if (hour === -1)
-                {
+                if (hour === -1) {
                     hour = 23;
                 }
                 totalPerHour[hour] += openParkings;
                 countPerHour[hour]++;
-                averagePerHour[hour] = parseInt((totalPerHour[hour] / countPerHour[hour]).toFixed(2));
+                // console.log(hour);
+                // console.log(openParkings);
+                var temp = {x: hour, y: parseInt((totalPerHour[hour] / countPerHour[hour]).toFixed(2))}
+                // averagePerHour[hour].x = 1;
+                // averagePerHour[hour].y = parseInt((totalPerHour[hour] / countPerHour[hour]).toFixed(2));
+                averagePerHour[hour] = temp;
             })
-
             setStatistics(averagePerHour);
         }
 
@@ -50,12 +54,12 @@ const StatisticsModal = props => {
     }, [])
     return (
         <Modal visible={props.show}
-        transparent={true}
+            transparent={true}
         >
             <View
-            style={styles.modal}>
-                <BarChart data={statistics} />
-                <Button onPress={props.closeModal} title="Close"/>
+                style={styles.modal}>
+                <Dashboard data={statistics} />
+                <Button onPress={props.closeModal} title="Close" />
             </View>
         </Modal>
     )

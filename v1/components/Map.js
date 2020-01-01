@@ -21,7 +21,9 @@ const Map = (props) => {
                         key={index}
                         coordinate={coordinate}
                         title={"title"}
-                        description={"description"} />
+                        description={"description"} 
+                        onPress={props.onPress.bind(this,data)}
+                       />
                 })}
             </MapView>
         </View>
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
     mapStyle: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
+        zIndex: 0
     },
 });
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, StyleSheet, Button } from 'react-native';
 import Axios from 'axios';
-import BarChart from '../components/BarChart';
 import Dashboard from '../components/Dashboard';
 
 //iOS baseURL changes everytime launching via Ngrok

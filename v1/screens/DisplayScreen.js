@@ -17,12 +17,10 @@ const DisplayScreen = (props) => {
 
     //When the toggle button is clicked
     const handleButtonToggle = () => {
-        console.log("Clicked");
         setToggleView((current) => !current);
     }
     //When get direction button is clicked in both the list and map view
     const handleGetDirection = (destinationLat, destinationLng) => {
-        console.log(inputLocation);
         const DirectionData = {
             source: {
                 latitude: inputLocation.lat,
@@ -89,7 +87,7 @@ const DisplayScreen = (props) => {
             <LinearGradient colors={[Colors.radient1, Colors.radient2]}
                 style={styles.linearGradient} />
             {toggleView
-                ? <MapView />
+                ? <MapView data={parkingLots}/>
                 : <ListView data={parkingLots} getDirection={handleGetDirection} />
             }
         </ImageBackground>
@@ -97,7 +95,7 @@ const DisplayScreen = (props) => {
 }
 
 DisplayScreen.navigationOptions = (navData) => {
-    console.log(navData)
+
     return {
         headerTitle: "Parking Lots",
         headerRight:

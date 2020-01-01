@@ -1,13 +1,13 @@
-import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, TouchableWithoutFeedback, Animated, Dimensions, Easing } from 'react-native'
+import React, { useEffect } from 'react';
+import { Text, View, StyleSheet, TouchableWithoutFeedback, Animated, Dimensions, Easing, Image } from 'react-native'
 import { Header } from 'react-navigation-stack';
+import { Scale } from 'victory-native';
 
 const screenHeight = Dimensions.get('window').height;
 const modalHeight = screenHeight * 0.3;
 
 const MapViewList = (props) => {
     const heightValue = new Animated.Value(0);
-
 
     Animated.timing(heightValue, {
         toValue: 100,
@@ -22,6 +22,8 @@ const MapViewList = (props) => {
 
     return (
         <Animated.View style={[styles.modal, { transform: [{ translateY: ModalShift }] }]} >
+            <Image source={{ uri: props.data.Image }} style={styles.image} 
+            resizeMode={"cover"}/>
             <Text> test1111 </Text>
         </Animated.View >
     )
@@ -29,6 +31,8 @@ const MapViewList = (props) => {
 
 const styles = StyleSheet.create({
     modal: {
+        flex: 1,
+        flexDirection: 'row',
         width: "100%",
         height: modalHeight,
         position: 'absolute',
@@ -44,6 +48,11 @@ const styles = StyleSheet.create({
         shadowRadius: 10,
         elevation: 5,
     },
+    image: {
+        width: "50%",
+        height: "64%",
+        resizeMode: 'cover',
+    }
 });
 
 export default MapViewList;

@@ -17,7 +17,7 @@ const MapView = (props) => {
     //     setSelected(null);
     //     console.log("deselected");
     // }
-    console.log(selected);
+
     return (
         <View>
             <Map data={props.data} onPress={markerSelected} />
@@ -25,7 +25,7 @@ const MapView = (props) => {
             {selected ?
             // (
             // <View style={styles.modal}>
-                <BasicInfoModal /> 
+                <BasicInfoModal data={selected}/> 
             // </View>
             // )
             : null

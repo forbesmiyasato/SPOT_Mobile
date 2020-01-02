@@ -5,13 +5,18 @@ import { Text } from 'react-native-svg';
 import { Header } from 'react-navigation-stack';
 import Colors from '../constants/Colors';
 
-const deviceHeight = Dimensions.get('window').height - Header.HEIGHT;
-const deviceWidth = Dimensions.get('window').width
+const height = Dimensions.get('window').height - Header.HEIGHT;
+const width = Dimensions.get('window').width
 
 const AvailabilityChart = (props) => {
     const [labelWidth, setLabelWidth] = useState(0);
     const [labelHeight, setLabelHeight] = useState(0);
-    //console.log(props);
+
+    const OpenParkings = parseInt(props.Open);
+    const OccupiedParkings = parseInt(props.Total - props.Open);
+    const TotalParkings = OpenParkings + OccupiedParkings;
+    const percent = OpenParkings / TotalParkings * 100;
+    const display = percent.toString() + "%";
     const data = [
         {
             key: 1,
@@ -20,7 +25,7 @@ const AvailabilityChart = (props) => {
         },
         {
             key: 2,
-            amount: props.Occupied,
+            amount: OccupiedParkings,
             svg: { fill: 'red' }
         }
     ]
@@ -46,13 +51,6 @@ const AvailabilityChart = (props) => {
         })
     }
 
-    //calculate open parking percentage to display
-    const OpenParkings = parseInt(props.Open);
-    const OccupiedParkings = parseInt(props.Occupied);
-    const TotalParkings = OpenParkings + OccupiedParkings;
-    const percent = OpenParkings / TotalParkings * 100;
-    const display = percent.toString() + "%";
-
     return (
         <PieChart
             style={{ height: "80%" }}
@@ -66,13 +64,13 @@ const AvailabilityChart = (props) => {
                     setLabelWidth(width);
                     setLabelHeight(height);
                 }}
-                style={{
-                    position: 'absolute',
-                    top: (deviceHeight - (deviceWidth / 30 * 8)) / 3 / 4 - labelHeight,
-                    left: (deviceWidth * 0.43333 / 2) - labelWidth / 2,
-                    textAlign: 'center',
-                    color: Colors.greyDark
-                }}>{display}</InsideText>
+                style={[props.style,
+                {
+                    top: props.topPosition - labelHeight,
+                    left: props.leftPosition - labelWidth / 2
+                }]}>
+                {display}
+            </InsideText>
             <Labels />
         </PieChart>
     )

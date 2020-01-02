@@ -19,7 +19,7 @@ const ListItem = props => {
         TouchableCmp = TouchableNativeFeedback;
     }*/
 
-    const Occupied = props.data.TotalParkings - props.data.Availability;
+    // const Occupied = props.data.TotalParkings - props.data.Availability;
 
     return (
         <FlipCard
@@ -52,7 +52,10 @@ const ListItem = props => {
                 <LinearGradient colors={[Colors.radient1, Colors.radient2]}
                     style={styles.linearGradientBackGround} />
                 <View style={styles.backTop}>
-                    <AvailabilityChart Open={props.data.Availability} Occupied={Occupied} />
+                    <AvailabilityChart style={styles.availabilityChart} 
+        Open={props.data.Availability} Total={props.data.TotalParkings} 
+        topPosition={(height - (width / 30 * 8)) / 3 / 4}
+        leftPosition={(width * 0.43333 / 2)} />
                 </View>
                 <View style={styles.backBottom}>
                     <View style={styles.buttonContainer}>
@@ -156,6 +159,13 @@ const styles = StyleSheet.create({
     backBottom: {
         flex: 1,
 
+    },
+    availabilityChart: {
+        position: 'absolute',
+        // top: (height - (width / 30 * 8)) / 3 / 4 - labelHeight,
+        // left: (width * 0.43333 / 2) - labelWidth / 2,
+        textAlign: 'center',
+        color: Colors.greyDark
     }
 });
 

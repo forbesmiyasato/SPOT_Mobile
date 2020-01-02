@@ -7,13 +7,10 @@ import Axios from 'axios';
 const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
 
 const Dashboard = props => {
-    const [averageArray, setAverageArray] = useState([]);
-    const [highestArray, setHighestArray] = useState([]);
     const [lowestArray, setLowestArray] = useState([]);
     const [extraForHighest, setExtraForHighest] = useState([]);
     const [extraForAverage, setExtraForAverage] = useState([]);
 
-    console.log(props.parkingLotID);
 
     useEffect(() => {
         const fetchStatistics = async () => {
@@ -60,10 +57,6 @@ const Dashboard = props => {
                 }
                 averagePerHour[hour] = average;
             })
-            // setAverageArray(averagePerHour);
-            // setHighestArray(highestPerHour);
-            // setLowestArray(lowestPerHour);
-            // setCanRenderDashboard(true);
 
             const TempExtraHighest = new Array(24);
             const TempExtraAverage = new Array(24);
@@ -72,7 +65,6 @@ const Dashboard = props => {
                 TempExtraHighest[i] = highestPerHour[i].y - data.y;
                 TempExtraAverage[i] = data.y - lowestPerHour[i].y;
             })
-            console.log(TempExtraAverage);
 
             setExtraForHighest(TempExtraHighest);
             setExtraForAverage(TempExtraAverage);
@@ -81,10 +73,8 @@ const Dashboard = props => {
 
         getData();
 
-        console.log("Did Mount")
+        console.log("Bar Chart Did Mount")
     }, [])
-
-
 
     return (
         <View style={styles.container}>

@@ -2,28 +2,89 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryStack, VictoryAxis } from "victory-native";
 import Colors from '../constants/Colors';
+import Axios from 'axios';
+
+const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
 
 const Dashboard = props => {
+    const [averageArray, setAverageArray] = useState([]);
+    const [highestArray, setHighestArray] = useState([]);
+    const [lowestArray, setLowestArray] = useState([]);
     const [extraForHighest, setExtraForHighest] = useState([]);
     const [extraForAverage, setExtraForAverage] = useState([]);
 
-    console.log(props.lowest);
+    console.log(props.parkingLotID);
 
     useEffect(() => {
-        console.log("Did Mount")
-        const setLengths = () => {
+        const fetchStatistics = async () => {
+            console.log("fetching parking lot statistics");
+            const results = await Axios.get(`${baseUrl}ParkingLot/${props.parkingLotID}/SnapShots/All`);
+
+            console.log("done fetching parking lot statistics");
+            return results.data;
+        }
+
+        const getData = async () => {
+            const results = await fetchStatistics().then((result) => {
+                return result;
+            });
+
+            var hour;
+            var totalPerHour = new Array(24).fill(0);
+            var countPerHour = new Array(24).fill(0);
+            var averagePerHour = new Array(24);
+            var highestPerHour = new Array(24).fill({ x: 0, y: 0 });
+            var lowestPerHour = new Array(24).fill({ x: 0, y: 100 });
+            var highest;
+            var lowest;
+            results.map((data) => {
+                var utcTime = data.timestamp;
+                hour = parseInt(utcTime.substring(11, 13)) - 7 < 0 ?
+                    parseInt(utcTime.substring(11, 13)) - 7 + 24 :
+                    parseInt(utcTime.substring(11, 13)) - 7;
+                var openParkings = parseInt(data.OpenParkings);
+                hour--;
+                if (hour === -1) {
+                    hour = 23;
+                }
+                totalPerHour[hour] += openParkings;
+                countPerHour[hour]++;
+                var average = { x: hour, y: parseFloat((totalPerHour[hour] / countPerHour[hour]).toFixed(2)) }
+                if (openParkings > highestPerHour[hour].y) {
+                    highest = { x: hour, y: openParkings };
+                    highestPerHour[hour] = highest;
+                }
+                if (openParkings < lowestPerHour[hour].y) {
+                    lowest = { x: hour, y: openParkings };
+                    lowestPerHour[hour] = lowest;
+                }
+                averagePerHour[hour] = average;
+            })
+            // setAverageArray(averagePerHour);
+            // setHighestArray(highestPerHour);
+            // setLowestArray(lowestPerHour);
+            // setCanRenderDashboard(true);
+
             const TempExtraHighest = new Array(24);
             const TempExtraAverage = new Array(24);
 
-            props.average.map((data, i) => {
-                TempExtraHighest[i] = props.highest[i].y - data.y;
-                TempExtraAverage[i] = data.y - props.lowest[i].y;
+            averagePerHour.map((data, i) => {
+                TempExtraHighest[i] = highestPerHour[i].y - data.y;
+                TempExtraAverage[i] = data.y - lowestPerHour[i].y;
             })
+            console.log(TempExtraAverage);
+
             setExtraForHighest(TempExtraHighest);
             setExtraForAverage(TempExtraAverage);
+            setLowestArray(lowestPerHour);
         }
-        setLengths();
+
+        getData();
+
+        console.log("Did Mount")
     }, [])
+
+
 
     return (
         <View style={styles.container}>
@@ -48,7 +109,7 @@ const Dashboard = props => {
                     colorScale={[Colors.primaryLight, Colors.primary, Colors.primaryDark]}
                 >
                     <VictoryBar
-                        data={props.lowest} />
+                        data={lowestArray} />
                     <VictoryBar
                         data={extraForAverage} />
                     <VictoryBar

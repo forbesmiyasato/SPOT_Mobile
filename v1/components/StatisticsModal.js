@@ -10,59 +10,59 @@ const StatisticsModal = props => {
     const [averageArray, setAverageArray] = useState([]);
     const [highestArray, setHighestArray] = useState([]);
     const [lowestArray, setLowestArray] = useState([]);
-    const [canRenderDashboard, setCanRenderDashboard] = useState(false)
+    // const [canRenderDashboard, setCanRenderDashboard] = useState(false)
     useEffect(() => {
-        const fetchStatistics = async () => {
-            console.log("fetching parking lot statistics");
-            const results = await Axios.get(`${baseUrl}ParkingLot/${props.parkingLotID}/SnapShots/All`);
+        // const fetchStatistics = async () => {
+        //     console.log("fetching parking lot statistics");
+        //     const results = await Axios.get(`${baseUrl}ParkingLot/${props.parkingLotID}/SnapShots/All`);
 
-            console.log("done fetching parking lot statistics");
-            return results.data;
-        }
+        //     console.log("done fetching parking lot statistics");
+        //     return results.data;
+        // }
 
-        const getData = async () => {
-            const results = await fetchStatistics().then((result) => {
-                return result;
-            });
+        // const getData = async () => {
+        //     const results = await fetchStatistics().then((result) => {
+        //         return result;
+        //     });
 
-            var hour;
-            var totalPerHour = new Array(24).fill(0);
-            var countPerHour = new Array(24).fill(0);
-            var averagePerHour = new Array(24);
-            var highestPerHour = new Array(24).fill({ x: 0, y: 0 });
-            var lowestPerHour = new Array(24).fill({ x: 0, y: 100 });
-            var highest;
-            var lowest;
-            results.map((data) => {
-                var utcTime = data.timestamp;
-                hour = parseInt(utcTime.substring(11, 13)) - 7 < 0 ?
-                    parseInt(utcTime.substring(11, 13)) - 7 + 24 :
-                    parseInt(utcTime.substring(11, 13)) - 7;
-                var openParkings = parseInt(data.OpenParkings);
-                hour--;
-                if (hour === -1) {
-                    hour = 23;
-                }
-                totalPerHour[hour] += openParkings;
-                countPerHour[hour]++;
-                var average = { x: hour, y: parseFloat((totalPerHour[hour] / countPerHour[hour]).toFixed(2)) }
-                if (openParkings > highestPerHour[hour].y) {
-                    highest = { x: hour, y: openParkings };
-                    highestPerHour[hour] = highest;
-                }
-                if (openParkings < lowestPerHour[hour].y) {
-                    lowest = { x: hour, y: openParkings };
-                    lowestPerHour[hour] = lowest;
-                }
-                averagePerHour[hour] = average;
-            })
-            setAverageArray(averagePerHour);
-            setHighestArray(highestPerHour);
-            setLowestArray(lowestPerHour);
-            setCanRenderDashboard(true);
-        }
+        //     var hour;
+        //     var totalPerHour = new Array(24).fill(0);
+        //     var countPerHour = new Array(24).fill(0);
+        //     var averagePerHour = new Array(24);
+        //     var highestPerHour = new Array(24).fill({ x: 0, y: 0 });
+        //     var lowestPerHour = new Array(24).fill({ x: 0, y: 100 });
+        //     var highest;
+        //     var lowest;
+        //     results.map((data) => {
+        //         var utcTime = data.timestamp;
+        //         hour = parseInt(utcTime.substring(11, 13)) - 7 < 0 ?
+        //             parseInt(utcTime.substring(11, 13)) - 7 + 24 :
+        //             parseInt(utcTime.substring(11, 13)) - 7;
+        //         var openParkings = parseInt(data.OpenParkings);
+        //         hour--;
+        //         if (hour === -1) {
+        //             hour = 23;
+        //         }
+        //         totalPerHour[hour] += openParkings;
+        //         countPerHour[hour]++;
+        //         var average = { x: hour, y: parseFloat((totalPerHour[hour] / countPerHour[hour]).toFixed(2)) }
+        //         if (openParkings > highestPerHour[hour].y) {
+        //             highest = { x: hour, y: openParkings };
+        //             highestPerHour[hour] = highest;
+        //         }
+        //         if (openParkings < lowestPerHour[hour].y) {
+        //             lowest = { x: hour, y: openParkings };
+        //             lowestPerHour[hour] = lowest;
+        //         }
+        //         averagePerHour[hour] = average;
+        //     })
+        //     setAverageArray(averagePerHour);
+        //     setHighestArray(highestPerHour);
+        //     setLowestArray(lowestPerHour);
+        //     setCanRenderDashboard(true);
+        // }
 
-        getData();
+        // getData();
     }, [])
     return (
         <Modal visible={props.show}
@@ -70,10 +70,7 @@ const StatisticsModal = props => {
         >
             <View
                 style={styles.modal}>
-                {canRenderDashboard ? 
-                    <Dashboard average={averageArray} highest={highestArray} lowest={lowestArray} />
-                    : null
-                }
+                    <Dashboard parkingLotID={props.parkingLotID}average={averageArray} highest={highestArray} lowest={lowestArray} />
                 <Button onPress={props.closeModal} title="Close" />
             </View>
         </Modal>

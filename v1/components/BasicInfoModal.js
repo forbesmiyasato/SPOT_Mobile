@@ -6,8 +6,8 @@ import { Scale } from 'victory-native';
 const screenHeight = Dimensions.get('window').height;
 const modalHeight = screenHeight * 0.3;
 
+const heightValue = new Animated.Value(0);
 const MapViewList = (props) => {
-    const heightValue = new Animated.Value(0);
 
     Animated.timing(heightValue, {
         toValue: 100,
@@ -22,9 +22,9 @@ const MapViewList = (props) => {
 
     return (
         <Animated.View style={[styles.modal, { transform: [{ translateY: ModalShift }] }]} >
-            <Image source={{ uri: props.data.Image }} style={styles.image} 
-            resizeMode={"cover"}/>
-            <Text> test1111 </Text>
+            <Image source={{ uri: props.data.Image }} style={styles.image}
+                resizeMode={"cover"} />
+            <Text> {props.data.Name} </Text>
         </Animated.View >
     )
 }
@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
         width: "50%",
         height: "64%",
         resizeMode: 'cover',
-    }
+    },
+
 });
 
 export default MapViewList;

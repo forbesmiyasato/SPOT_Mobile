@@ -20,8 +20,8 @@ const Map = (props) => {
                     return <MapView.Marker
                         key={index}
                         coordinate={coordinate}
-                        title={"title"}
-                        description={"description"} 
+                        title={data.Name}
+                        description={"Click for more"}
                         onPress={props.onPress.bind(this,data)}
                        />
                 })}

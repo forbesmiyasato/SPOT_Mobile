@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
     TouchableOpacity, View, Text, StyleSheet,
     TouchableNativeFeedback, Platform, Dimensions, Image
@@ -43,8 +43,8 @@ const ListItem = props => {
                         <Text style={styles.detailsHeader}>Distance:</Text>
                         <Text style={styles.detailsData}>{props.data.DistanceMatrix.distance}</Text>
                         <Text style={styles.detailsHeader}>Duration:</Text>
-                        <Text style={styles.detailsData}>{props.data.DistanceMatrix.duration}</Text>
-                        <Text style={styles.detailsData}>{props.data.DistanceMatrix.unit}</Text>
+                        <Text adjustsFontSizeToFit style={styles.detailsData}>{props.data.DistanceMatrix.duration}</Text>
+                        <Text numberOfLines={1} allowFontScaling adjustsFontSizeToFit style={styles.detailsData}>{props.data.DistanceMatrix.unit}</Text>
                     </View>
                 </View>
             </View>
@@ -52,14 +52,14 @@ const ListItem = props => {
                 <LinearGradient colors={[Colors.radient1, Colors.radient2]}
                     style={styles.linearGradientBackGround} />
                 <View style={styles.backTop}>
-                    <AvailabilityChart Open={props.data.Availability} Occupied={Occupied}/>
+                    <AvailabilityChart Open={props.data.Availability} Occupied={Occupied} />
                 </View>
                 <View style={styles.backBottom}>
                     <View style={styles.buttonContainer}>
-                        <Button style={styles.button} fontSize={14} 
-                        onPress={props.getDirection.bind(this, props.data.Lat, props.data.Lng)}>Get Directions</Button>
                         <Button style={styles.button} fontSize={14}
-                        onPress={props.showStatistics.bind(this, props.data._id)}>See Statistics</Button>
+                            onPress={props.getDirection.bind(this, props.data.Lat, props.data.Lng)}>Get Directions</Button>
+                        <Button style={styles.button} fontSize={14}
+                            onPress={props.showStatistics.bind(this, props.data._id)}>See Statistics</Button>
                     </View>
                 </View>
             </View>
@@ -153,9 +153,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
     },
-    backBottom:{
+    backBottom: {
         flex: 1,
-        
+
     }
 });
 

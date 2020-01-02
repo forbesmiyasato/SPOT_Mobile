@@ -13,23 +13,22 @@ const MapView = (props) => {
         setSelected(data);
     }
 
-    // const calloutPressed = () => {
-    //     setDetailState(true
-    // }
-
-    // const markerDeselected = () => {
-    //     setSelected(null);
-    //     console.log("deselected");
-    // }
+    const redirectToDetail = (data) => {
+        props.navigation.navigate({
+            routeName: 'DetailScreen', params: {
+                data: data
+            }
+        })
+    };
 
     return (
         <View>
-            <Map data={props.data} onPress={markerSelected} navigation={props.navigation}/>
+            <Map data={props.data} onPress={markerSelected} redirectToDetail={redirectToDetail}/>
 
             {selected ?
             // (
             // <View style={styles.modal}>
-                <BasicInfoModal data={selected}/> 
+                <BasicInfoModal data={selected} redirectToDetail={redirectToDetail}/> 
             // </View>
             // )
             : null

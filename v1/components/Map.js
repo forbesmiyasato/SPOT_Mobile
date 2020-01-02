@@ -4,14 +4,6 @@ import MapView, { Marker } from 'react-native-maps';
 
 const Map = (props) => {
 
-    const redirectToDetail = (data) => {
-        props.navigation.navigate({
-            routeName: 'DetailScreen', params: {
-                data: data
-            }
-        })
-    };
-
     return (
         <View>
             <MapView
@@ -31,7 +23,7 @@ const Map = (props) => {
                         title={data.Name}
                         description={"Click for more"}
                         onPress={props.onPress.bind(this, data)}
-                        onCalloutPress={redirectToDetail.bind(this, data)}
+                        onCalloutPress={props.redirectToDetail.bind(this, data)}
                     />
                 })}
             </MapView>

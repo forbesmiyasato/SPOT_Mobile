@@ -25,13 +25,15 @@ const MapViewList = (props) => {
     })
 
     return (
-        <Animated.View style={[styles.modal, { transform: [{ translateY: ModalShift }] }]} >
-                <Image source={{ uri: props.data.Image }} style={styles.image}/>
+        <TouchableWithoutFeedback onPress={props.redirectToDetail.bind(this, props.data)}>
+            <Animated.View style={[styles.modal, { transform: [{ translateY: ModalShift }] }]} >
+                <Image source={{ uri: props.data.Image }} style={styles.image} />
                 <View style={styles.detailContainer}>
-                        <Text adjustsFontSizeToFitWidth={true} style={styles.Name}> {props.data.Name} </Text>
-                        <Text style={styles.Detail}> Open Parking: {props.data.Availability}</Text>
+                    <Text adjustsFontSizeToFitWidth={true} style={styles.Name}> {props.data.Name} </Text>
+                    <Text style={styles.Detail}> Open Parking: {props.data.Availability}</Text>
                 </View>
-        </Animated.View >
+            </Animated.View >
+        </TouchableWithoutFeedback>
     )
 }
 

@@ -87,7 +87,7 @@ const DisplayScreen = (props) => {
             <LinearGradient colors={[Colors.radient1, Colors.radient2]}
                 style={styles.linearGradient} />
             {toggleView
-                ? <MapView data={parkingLots}/>
+                ? <MapView data={parkingLots} navigation={props.navigation}/>
                 : <ListView data={parkingLots} getDirection={handleGetDirection} />
             }
         </ImageBackground>

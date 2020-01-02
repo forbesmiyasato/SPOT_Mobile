@@ -2,9 +2,13 @@ import React, { useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableWithoutFeedback, Animated, Dimensions, Easing, Image } from 'react-native'
 import { Header } from 'react-navigation-stack';
 import { Scale } from 'victory-native';
+import { Card } from 'react-native-material-ui';
 
+const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
-const modalHeight = screenHeight * 0.3;
+const modalHeight = screenHeight * 0.1;
+
+console.log(screenWidth);
 
 const heightValue = new Animated.Value(0);
 const MapViewList = (props) => {
@@ -17,14 +21,16 @@ const MapViewList = (props) => {
 
     const ModalShift = heightValue.interpolate({
         inputRange: [0, 100],
-        outputRange: [modalHeight, 0]
+        outputRange: [modalHeight, -modalHeight]
     })
 
     return (
         <Animated.View style={[styles.modal, { transform: [{ translateY: ModalShift }] }]} >
-            <Image source={{ uri: props.data.Image }} style={styles.image}
-                resizeMode={"cover"} />
-            <Text> {props.data.Name} </Text>
+                <Image source={{ uri: props.data.Image }} style={styles.image}/>
+                <View style={styles.detailContainer}>
+                        <Text adjustsFontSizeToFitWidth={true} style={styles.Name}> {props.data.Name} </Text>
+                        <Text style={styles.Detail}> Open Parking: {props.data.Availability}</Text>
+                </View>
         </Animated.View >
     )
 }
@@ -49,11 +55,19 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     image: {
-        width: "50%",
-        height: "64%",
-        resizeMode: 'cover',
+        width: "40%",
+        height: "100%",
+        // resizeMode: "contain"
     },
-
+    Name: {
+        fontWeight: 'bold',
+        fontSize: screenWidth / 21.82,
+    },
+    detailContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
 });
 
 export default MapViewList;

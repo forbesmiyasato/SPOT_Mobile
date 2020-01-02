@@ -8,10 +8,14 @@ import BasicInfoModal from '../components/BasicInfoModal';
 const MapView = (props) => {
     const [selected, setSelected] = useState();
     const [showList, setShowList] = useState();
-
+    // const [detailState, setDetailState] = useState(false);
     const markerSelected = (data) => {
         setSelected(data);
     }
+
+    // const calloutPressed = () => {
+    //     setDetailState(true
+    // }
 
     // const markerDeselected = () => {
     //     setSelected(null);
@@ -20,7 +24,7 @@ const MapView = (props) => {
 
     return (
         <View>
-            <Map data={props.data} onPress={markerSelected} />
+            <Map data={props.data} onPress={markerSelected} navigation={props.navigation}/>
 
             {selected ?
             // (

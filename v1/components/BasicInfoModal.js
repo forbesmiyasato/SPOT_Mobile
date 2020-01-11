@@ -8,7 +8,6 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const modalHeight = screenHeight * 0.1;
 
-console.log(screenWidth);
 
 const heightValue = new Animated.Value(0);
 const MapViewList = (props) => {

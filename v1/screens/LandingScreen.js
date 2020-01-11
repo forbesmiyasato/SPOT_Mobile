@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ImageBackground, View, StyleSheet, Animated, Dimensions, 
-    TouchableWithoutFeedback, Keyboard, Easing, KeyboardAvoidingView} from 'react-native';
+    TouchableWithoutFeedback, Keyboard, Easing, KeyboardAvoidingView, Alert} from 'react-native';
 import Colors from '../constants/Colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
@@ -8,9 +8,10 @@ import Button from '../components/Button';
 import Text from '../components/LatoText';
 import Config from '../config';
 import LocationSearchBar from '../components/LocationSearchBar';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 const width = Dimensions.get('window').width;
-
 
 const LandingScreen = (props) => {
 
@@ -62,6 +63,30 @@ const LandingScreen = (props) => {
         outputRange: [-100, 20, 0]
     })
 
+    const currentLocation = async () => {
+        console.log("current location");
+        const {status} = await Permissions.askAsync(Permissions.LOCATION);
+
+        if (status !== 'granted') {
+            console.log("Permission not granted");
+            Alert.alert("Error getting current location", 
+            'Unable to get your location data./n Please enable location service in "Settings"', 
+            [{ text: 'Sorry!', style: 'cancel' }])
+            return;
+        }
+
+        const userLocation = await Location.getCurrentPositionAsync();
+        const location = {
+            "lat" : userLocation.coords.latitude,
+            "lng" : userLocation.coords.longitude
+        }
+        props.navigation.navigate({
+            routeName: 'DisplayScreen', params: {
+                location: location 
+            }
+        })
+    };
+
     return (
         <TouchableWithoutFeedback onPress={() => {
             Keyboard.dismiss();
@@ -86,7 +111,8 @@ const LandingScreen = (props) => {
                         </Animated.View>
                         <LocationSearchBar navigation={props.navigation} />
                         <Animated.View style={{ opacity: buttonOpacity, transform: [{ translateY: translationUpY }] }}>
-                            <Button style={styles.button} fontSize={18}><Text>Current Location <Entypo name="location" size={20} /></Text></Button>
+                            <Button style={styles.button} fontSize={18} onPress={currentLocation}><Text>Current Location <Entypo name="location" size={20} 
+                            /></Text></Button>
                         </Animated.View>
                     </View>
                 </ImageBackground>

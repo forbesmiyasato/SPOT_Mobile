@@ -7,6 +7,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Directions from 'react-native-google-maps-directions';
 import ToggleSwitch from 'rn-toggle-switch';
 import MapView from './MapView';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import HeaderButton from '../components/CustomHeaderButton';
 
 //iOS baseURL changes everytime launching via Ngrok
 const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
@@ -14,11 +16,16 @@ const DisplayScreen = (props) => {
     const [inputLocation, setInputLocation] = useState(props.navigation.getParam('location'));
     const [parkingLots, setParkingLots] = useState([]);
     const [toggleView, setToggleView] = useState(false); //false - list, true - map
-
     //When the toggle button is clicked
     const handleButtonToggle = () => {
         setToggleView((current) => !current);
     }
+
+
+    useEffect(() => {
+        props.navigation.setParams({ hideOption: toggleView });
+    }, [toggleView])
+
     //When get direction button is clicked in both the list and map view
     const handleGetDirection = (destinationLat, destinationLng) => {
         const DirectionData = {
@@ -76,7 +83,7 @@ const DisplayScreen = (props) => {
 
         fetchParkingLots();
 
-        props.navigation.setParams({switchClicked : handleButtonToggle})
+        props.navigation.setParams({ switchClicked: handleButtonToggle })
     }, [])
 
     // console.log(parkingLots);
@@ -87,7 +94,7 @@ const DisplayScreen = (props) => {
             <LinearGradient colors={[Colors.radient1, Colors.radient2]}
                 style={styles.linearGradient} />
             {toggleView
-                ? <MapView data={parkingLots} navigation={props.navigation}/>
+                ? <MapView data={parkingLots} navigation={props.navigation} />
                 : <ListView data={parkingLots} getDirection={handleGetDirection} />
             }
         </ImageBackground>
@@ -99,17 +106,30 @@ DisplayScreen.navigationOptions = (navData) => {
     return {
         headerTitle: "Parking Lots",
         headerRight:
-            <ToggleSwitch
-                text={{ on: 'List', off: 'Map', activeTextColor: 'white', inactiveTextColor: 'white' }}
-                textStyle={{ fontWeight: 'bold' }}
-                color={{ indicator: 'white', active: Colors.primaryLight, inactive: Colors.primaryDark, 
-                activeBorder: Colors.primaryLight, inactiveBorder: Colors.primaryDark }}
-                active={true}
-                disabled={false}
-                width={50}
-                radius={25}
-                onValueChange={() => {navData.navigation.getParam('switchClicked')()}}
-            />
+            <>
+                {navData.navigation.getParam('hideOption') ? null :
+                    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                        <Item title="Favorite"
+                            iconName='ios-options'
+                            onPress={() => { console.log("Marked as Favorite") }} />
+                    </HeaderButtons>
+                }
+                <ToggleSwitch
+                    text={{ on: 'List', off: 'Map', activeTextColor: 'white', inactiveTextColor: 'white' }}
+                    textStyle={{ fontWeight: 'bold' }}
+                    color={{
+                        indicator: 'white', active: Colors.primaryLight, inactive: Colors.primaryDark,
+                        activeBorder: Colors.primaryLight, inactiveBorder: Colors.primaryDark
+                    }}
+                    active={true}
+                    disabled={false}
+                    width={50}
+                    radius={25}
+                    onValueChange={() => { navData.navigation.getParam('switchClicked')() }}
+                />
+
+            </>
+
     };
 };
 

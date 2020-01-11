@@ -4,6 +4,7 @@ import Colors from '../constants/Colors';
 
 //Custom button, configurable externally
 const Button = props => {
+
     return (
         <TouchableOpacity onPress={props.onPress}>
             <View style={{...styles.button, ...props.style}}>

@@ -74,12 +74,18 @@ const DisplayScreen = (props) => {
     }
 
     const handleSortByAvailability = () => {
-        setParkingLots(parkingLots => parkingLots.sort((a, b) => (a.Availability > b.Availability) ? -1 : 1));
+        setParkingLots(parkingLots.sort(function (a, b) {
+            return b.Availability - a.Availability;
+        }));
     }
-    
+
     const handleSortByDistance = () => {
-        setParkingLots(parkingLots => parkingLots.sort((a, b) => (a.DistanceMatrix.Distance > b.DistanceMatrix.Distance) ? -1 : 1))
+        setParkingLots(parkingLots.sort(function (a, b) {
+            return a.DistanceMatrix.distance - b.DistanceMatrix.distance;
+        }));
+        console.log("Called");
     }
+
     //When get direction button is clicked in both the list and map view
     const handleGetDirection = (destinationLat, destinationLng) => {
         const DirectionData = {
@@ -105,16 +111,14 @@ const DisplayScreen = (props) => {
         Directions(DirectionData);
     }
 
-    console.log(parkingLots);
-
     return (
         <ImageBackground source={require('../assets/ShowPageImage.jpg')}
             style={{ width: '100%', height: '100%' }}>
             <LinearGradient colors={[Colors.radient1, Colors.radient2]}
                 style={styles.linearGradient} />
             <OptionsModal show={showOptions} closeModal={handleOptionsClose}
-            handleSortByAvailability={handleSortByAvailability}
-            handleSortByDistance={handleSortByDistance}/>
+                handleSortByAvailability={handleSortByAvailability}
+                handleSortByDistance={handleSortByDistance} />
             {toggleView
                 ? <MapView data={parkingLots} navigation={props.navigation} />
                 : <ListView data={parkingLots} getDirection={handleGetDirection} />

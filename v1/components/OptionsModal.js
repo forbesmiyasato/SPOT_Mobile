@@ -17,9 +17,10 @@ const OptionsModal = props => {
     }
 
     const saveClicked = () => {
-        if(sortAvailability) {
-            props.handleSortByAvailability();
+        if(sortAvailability) { 
             console.log("Sort By Availability")
+            props.handleSortByAvailability();
+           
         }
 
         if(sortDistance) {

@@ -8,7 +8,7 @@ import Config from '../config';
 const width = Dimensions.get('window').width;
 
 //Generate unique session token to reduce request cost 
-//(Formulate from "https://github.com/FaridSafi/react-native-google-places-autocomplete/issues/324")
+//(Formula from "https://github.com/FaridSafi/react-native-google-places-autocomplete/issues/324")
 const createPlacesAutocompleteSessionToken = (a) => {
     return a
         ? (a ^ Math.random() * 16 >> a / 4).toString(16)

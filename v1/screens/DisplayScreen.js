@@ -9,6 +9,7 @@ import ToggleSwitch from 'rn-toggle-switch';
 import MapView from './MapView';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/CustomHeaderButton';
+import OptionsModal from '../components/OptionsModal';
 
 //iOS baseURL changes everytime launching via Ngrok
 const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
@@ -16,40 +17,7 @@ const DisplayScreen = (props) => {
     const [inputLocation, setInputLocation] = useState(props.navigation.getParam('location'));
     const [parkingLots, setParkingLots] = useState([]);
     const [toggleView, setToggleView] = useState(false); //false - list, true - map
-    //When the toggle button is clicked
-    const handleButtonToggle = () => {
-        setToggleView((current) => !current);
-    }
-
-
-    useEffect(() => {
-        props.navigation.setParams({ hideOption: toggleView });
-    }, [toggleView])
-
-    //When get direction button is clicked in both the list and map view
-    const handleGetDirection = (destinationLat, destinationLng) => {
-        const DirectionData = {
-            source: {
-                latitude: inputLocation.lat,
-                longitude: inputLocation.lng
-            },
-            destination: {
-                latitude: destinationLat,
-                longitude: destinationLng
-            },
-            params: [
-                {
-                    key: "travelmode",
-                    value: "driving"        // may be "walking", "bicycling" or "transit" as well
-                },
-                {
-                    key: "dir_action",
-                    value: "navigate"       // this instantly initializes navigation using the given travel mode
-                }
-            ]
-        }
-        Directions(DirectionData);
-    }
+    const [showOptions, setShowOptions] = useState(false);
 
     //Fetch data from backend once the component mounts
     useEffect(() => {
@@ -83,16 +51,70 @@ const DisplayScreen = (props) => {
 
         fetchParkingLots();
 
-        props.navigation.setParams({ switchClicked: handleButtonToggle })
+        props.navigation.setParams({ switchClicked: handleButtonToggle, optionClicked: handleOptionsClicked })
     }, [])
 
-    // console.log(parkingLots);
+    //When the toggle button is clicked
+    const handleButtonToggle = () => {
+        setToggleView((current) => !current);
+    }
+
+    //----Options Section-----//
+    //Hides options on map, and shows options on list
+    useEffect(() => {
+        props.navigation.setParams({ hideOption: toggleView });
+    }, [toggleView])
+
+    const handleOptionsClicked = () => {
+        setShowOptions(true);
+    }
+
+    const handleOptionsClose = () => {
+        setShowOptions(false);
+    }
+
+    const handleSortByAvailability = () => {
+        setParkingLots(parkingLots => parkingLots.sort((a, b) => (a.Availability > b.Availability) ? -1 : 1));
+    }
+    
+    const handleSortByDistance = () => {
+        setParkingLots(parkingLots => parkingLots.sort((a, b) => (a.DistanceMatrix.Distance > b.DistanceMatrix.Distance) ? -1 : 1))
+    }
+    //When get direction button is clicked in both the list and map view
+    const handleGetDirection = (destinationLat, destinationLng) => {
+        const DirectionData = {
+            source: {
+                latitude: inputLocation.lat,
+                longitude: inputLocation.lng
+            },
+            destination: {
+                latitude: destinationLat,
+                longitude: destinationLng
+            },
+            params: [
+                {
+                    key: "travelmode",
+                    value: "driving"        // may be "walking", "bicycling" or "transit" as well
+                },
+                {
+                    key: "dir_action",
+                    value: "navigate"       // this instantly initializes navigation using the given travel mode
+                }
+            ]
+        }
+        Directions(DirectionData);
+    }
+
+    console.log(parkingLots);
 
     return (
         <ImageBackground source={require('../assets/ShowPageImage.jpg')}
             style={{ width: '100%', height: '100%' }}>
             <LinearGradient colors={[Colors.radient1, Colors.radient2]}
                 style={styles.linearGradient} />
+            <OptionsModal show={showOptions} closeModal={handleOptionsClose}
+            handleSortByAvailability={handleSortByAvailability}
+            handleSortByDistance={handleSortByDistance}/>
             {toggleView
                 ? <MapView data={parkingLots} navigation={props.navigation} />
                 : <ListView data={parkingLots} getDirection={handleGetDirection} />
@@ -109,9 +131,9 @@ DisplayScreen.navigationOptions = (navData) => {
             <>
                 {navData.navigation.getParam('hideOption') ? null :
                     <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                        <Item title="Favorite"
+                        <Item title="Options"
                             iconName='ios-options'
-                            onPress={() => { console.log("Marked as Favorite") }} />
+                            onPress={() => { navData.navigation.getParam('optionClicked')() }} />
                     </HeaderButtons>
                 }
                 <ToggleSwitch

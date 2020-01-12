@@ -18,7 +18,7 @@ const DisplayScreen = (props) => {
     const [parkingLots, setParkingLots] = useState([]);
     const [toggleView, setToggleView] = useState(false); //false - list, true - map
     const [showOptions, setShowOptions] = useState(false);
-
+    const [filteredList, setFilteredList] = useState();
     //Fetch data from backend once the component mounts
     useEffect(() => {
         const fetchParkingLots = async () => {
@@ -86,6 +86,17 @@ const DisplayScreen = (props) => {
         console.log("Called");
     }
 
+    const handleFilterByAvailability = () => {
+        setFilteredList(parkingLots.filter(parkingLot => parkingLot.Availability > 10));
+    }
+
+    const handleFilterByDistance = (distance) => {
+        if (distance === 0) {
+            distance = 2147483647; //if within 0 miles then return all parking lots (within distance doesn't take effect)
+        }
+        console.log(distance);
+        setFilteredList(parkingLots.filter(parkingLot => parkingLot.DistanceMatrix.distance < distance));
+    }
     //When get direction button is clicked in both the list and map view
     const handleGetDirection = (destinationLat, destinationLng) => {
         const DirectionData = {
@@ -118,10 +129,12 @@ const DisplayScreen = (props) => {
                 style={styles.linearGradient} />
             <OptionsModal show={showOptions} closeModal={handleOptionsClose}
                 handleSortByAvailability={handleSortByAvailability}
-                handleSortByDistance={handleSortByDistance} />
+                handleSortByDistance={handleSortByDistance}
+                handleFilterByAvailability={handleFilterByAvailability}
+                handleFilterByDistance={handleFilterByDistance}/>
             {toggleView
                 ? <MapView data={parkingLots} navigation={props.navigation} />
-                : <ListView data={parkingLots} getDirection={handleGetDirection} />
+                : <ListView data={filteredList? filteredList : parkingLots} getDirection={handleGetDirection} />
             }
         </ImageBackground>
     )

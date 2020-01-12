@@ -11,7 +11,7 @@ const RadioButton = (props) => {
                 width: 24,
                 borderRadius: 12,
                 borderWidth: 2,
-                borderColor: '#000',
+                borderColor: props.borderColor,
                 alignItems: 'center',
                 justifyContent: 'center',
             }, props.style]}>
@@ -21,7 +21,7 @@ const RadioButton = (props) => {
                             height: 12,
                             width: 12,
                             borderRadius: 6,
-                            backgroundColor: '#000',
+                            backgroundColor: props.selectedColor,
                         }} />
                         : null
                 }

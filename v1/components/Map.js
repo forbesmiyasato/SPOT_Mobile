@@ -3,14 +3,13 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 const Map = (props) => {
-
     return (
         <View>
             <MapView
                 style={styles.mapStyle}
                 region={{
-                    latitude: 45.522,
-                    longitude: -123.110,
+                    latitude: props.initialLocation.lat,
+                    longitude: props.initialLocation.lng,
                     latitudeDelta: 1,
                     longitudeDelta: 1,
                 }}

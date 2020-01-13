@@ -23,7 +23,7 @@ const MapView = (props) => {
 
     return (
         <View>
-            <Map data={props.data} onPress={markerSelected} redirectToDetail={redirectToDetail}/>
+            <Map initialLocation={props.initialLocation} data={props.data} onPress={markerSelected} redirectToDetail={redirectToDetail}/>
 
             {selected ?
             // (

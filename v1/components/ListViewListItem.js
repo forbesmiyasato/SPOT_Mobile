@@ -55,7 +55,8 @@ const ListItem = props => {
                     <AvailabilityChart style={styles.availabilityChart} 
         Open={props.data.Availability} Total={props.data.TotalParkings} 
         topPosition={(height - (width / 30 * 8)) / 3 / 4}
-        leftPosition={(width * 0.43333 / 2)} />
+        leftPosition={(width * 0.43333 / 2)}
+        height="80%" />
                 </View>
                 <View style={styles.backBottom}>
                     <View style={styles.buttonContainer}>

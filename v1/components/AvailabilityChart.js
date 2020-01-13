@@ -53,7 +53,7 @@ const AvailabilityChart = (props) => {
 
     return (
         <PieChart
-            style={{ height: "80%" }}
+            style={{ height: props.height }}
             valueAccessor={({ item }) => item.amount}
             data={data}
             spacing={0}

@@ -133,7 +133,8 @@ const DisplayScreen = (props) => {
                 handleFilterByAvailability={handleFilterByAvailability}
                 handleFilterByDistance={handleFilterByDistance}/>
             {toggleView
-                ? <MapView data={parkingLots} navigation={props.navigation} initialLocation={inputLocation} />
+                ? <MapView data={parkingLots} navigation={props.navigation} initialLocation={inputLocation}
+                getDirection={handleGetDirection} />
                 : <ListView data={filteredList? filteredList : parkingLots} getDirection={handleGetDirection} />
             }
         </ImageBackground>

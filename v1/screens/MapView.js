@@ -16,7 +16,8 @@ const MapView = (props) => {
     const redirectToDetail = (data) => {
         props.navigation.navigate({
             routeName: 'DetailScreen', params: {
-                data: data
+                data: data,
+                getDirection: props.getDirection
             }
         })
     };

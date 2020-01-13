@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryStack, VictoryAxis } from "victory-native";
 import Colors from '../constants/Colors';
 import Axios from 'axios';
 
-const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
+const chartHeight = Dimensions.get('window').height / 2.4581; //Optimal height is 300, which is screen height / 2.4581
+const baseUrl = Platform.OS === 'ios' ? 'https://f3962a70.ngrok.io/' : 'http://10.0.2.2:5000/';
 
+console.log(chartHeight);
 const Dashboard = props => {
     const [lowestArray, setLowestArray] = useState([]);
     const [extraForHighest, setExtraForHighest] = useState([]);
@@ -79,6 +81,7 @@ const Dashboard = props => {
     return (
         <View style={styles.container}>
             <VictoryChart
+            height={chartHeight}
                 domainPadding={{ x: [20, 20] }} >
                 <VictoryAxis
                     label="Time"
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "white",
         width: "100%",
-        paddingLeft: 40
+        paddingLeft: 40,
     }
 });
 

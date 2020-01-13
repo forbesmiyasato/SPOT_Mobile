@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text as InsideText, Dimensions, View } from 'react-native';
+import { Text as InsideText, Dimensions, View, Platform } from 'react-native';
 import { PieChart } from 'react-native-svg-charts'
 import { Text } from 'react-native-svg';
 import { Header } from 'react-navigation-stack';
@@ -52,6 +52,7 @@ const AvailabilityChart = (props) => {
     }
 
     return (
+        <>
         <PieChart
             style={{ height: props.height }}
             valueAccessor={({ item }) => item.amount}
@@ -59,20 +60,22 @@ const AvailabilityChart = (props) => {
             spacing={0}
             outerRadius={'95%'}
         >
-            <InsideText
-                onLayout={({ nativeEvent: { layout: { width, height } } }) => {
-                    setLabelWidth(width);
-                    setLabelHeight(height);
-                }}
-                style={[props.style,
-                {
-                    top: props.topPosition - labelHeight,
-                    left: props.leftPosition - labelWidth / 2
-                }]}>
-                {display}
-            </InsideText>
+
             <Labels />
-        </PieChart>
+        </PieChart> 
+        <InsideText
+            onLayout={({ nativeEvent: { layout: { width, height } } }) => {
+                setLabelWidth(width);
+                setLabelHeight(height);
+            }}
+            style={[props.style,
+            {
+                top: props.topPosition - labelHeight / 2,
+                left: props.leftPosition - labelWidth / 2
+            }]}>
+            {display}
+        </InsideText>
+        </>
     )
 }
 

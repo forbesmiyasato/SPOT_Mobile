@@ -10,9 +10,11 @@ import MapView from './MapView';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/CustomHeaderButton';
 import OptionsModal from '../components/OptionsModal';
+import { Header } from 'react-navigation-stack';
 
+const HeaderHeight = Header.HEIGHT;
 //iOS baseURL changes everytime launching via Ngrok
-const baseUrl = Platform.OS === 'ios' ? 'https://e935b714.ngrok.io/' : 'http://10.0.2.2:5000/';
+const baseUrl = Platform.OS === 'ios' ? 'https://f3962a70.ngrok.io/' : 'http://10.0.2.2:5000/';
 const DisplayScreen = (props) => {
     const [inputLocation, setInputLocation] = useState(props.navigation.getParam('location'));
     const [parkingLots, setParkingLots] = useState([]);
@@ -94,7 +96,6 @@ const DisplayScreen = (props) => {
         if (distance === 0) {
             distance = 2147483647; //if within 0 miles then return all parking lots (within distance doesn't take effect)
         }
-        console.log(distance);
         setFilteredList(parkingLots.filter(parkingLot => parkingLot.DistanceMatrix.distance < distance));
     }
     //When get direction button is clicked in both the list and map view
@@ -164,7 +165,7 @@ DisplayScreen.navigationOptions = (navData) => {
                     active={true}
                     disabled={false}
                     width={50}
-                    radius={25}
+                    radius={20}
                     onValueChange={() => { navData.navigation.getParam('switchClicked')() }}
                 />
 
@@ -172,6 +173,8 @@ DisplayScreen.navigationOptions = (navData) => {
 
     };
 };
+
+console.log(HeaderHeight);
 
 const styles = StyleSheet.create({
     linearGradient: {

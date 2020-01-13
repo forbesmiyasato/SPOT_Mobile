@@ -6,7 +6,7 @@ import DonutChart from '../components/AvailabilityChart';
 import Colors from '../constants/Colors';
 
 const width = Dimensions.get('window').width
-const height = Dimensions.get('window').height - Header.HEIGHT;
+const height = Dimensions.get('window').height;
 
 const DetailScreen = (props) => {
     const data = props.navigation.getParam('data');
@@ -26,7 +26,7 @@ const DetailScreen = (props) => {
                         <Text numberOfLines={1} allowFontScaling adjustsFontSizeToFit>
                             {data.DistanceMatrix.unit}</Text></View>
                     <TouchableOpacity style={styles.features}
-                    onPress={getDirection(data.Lat, data.Lng)}>
+                        onPress={() => getDirection(data.Lat, data.Lng)}>
                         <View style={styles.directions}>
                             <Text style={styles.directionsText}>Get Directions</Text>
                         </View>
@@ -35,7 +35,8 @@ const DetailScreen = (props) => {
                 <BarChart parkingLotID={data._id} />
                 <DonutChart style={styles.availabilityChart}
                     Open={data.Availability} Total={data.TotalParkings}
-                    topPosition={200 / 2}
+                    topPosition={height * (0.3 + 0.1 + 0.406) + 100} 
+                    //screen height * (height of (image + features + barchart)) + half of pie chart itself to place text in middle
                     leftPosition={width / 2}
                     height={200} />
             </View>

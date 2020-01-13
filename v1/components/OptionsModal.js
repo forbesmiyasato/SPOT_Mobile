@@ -76,7 +76,7 @@ const OptionsModal = props => {
                         borderColor={Colors.primary} selectedColor={Colors.primary} />
                 </View>
                 <View style={{alignItems: 'center'}}>
-                <Text style={styles.within}> Within <Text style={{color: Colors.primaryDark}}>{slideValue}</Text> miles</Text>
+                <Text style={styles.within}> Within <Text style={{color: Colors.primaryDark}}>{slideValue === 0? "Any" : slideValue}</Text> miles</Text>
                 </View>
                 <Slider
                     step={1}

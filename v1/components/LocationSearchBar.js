@@ -35,7 +35,7 @@ const LocationSearchBar = props => {
                 const predictions = json.predictions.slice(0, 3);
                 setPredictions(predictions);
             } catch (err) {
-                console.log(err);
+                console.log("prediction error:" + err);
             }
 
             console.log("made autocomplete request");
@@ -60,7 +60,7 @@ const LocationSearchBar = props => {
                 })
             );
         }).catch(error => {
-            console.log(error);
+            console.log("Autocomplete error:" + error);
         })
 
     }

@@ -11,10 +11,12 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/CustomHeaderButton';
 import OptionsModal from '../components/OptionsModal';
 import { Header } from 'react-navigation-stack';
+import Config from '../config';
 
 const HeaderHeight = Header.HEIGHT;
 //iOS baseURL changes everytime launching via Ngrok
-const baseUrl = Platform.OS === 'ios' ? 'https://f3962a70.ngrok.io/' : 'http://10.0.2.2:5000/';
+const baseUrl = Platform.OS === 'ios' ? `${Config.REACT_APP_IOS_BASE_URL}/` : `${Config.REACT_APP_OTHER_BASE_URL}/`;
+
 const DisplayScreen = (props) => {
     const [inputLocation, setInputLocation] = useState(props.navigation.getParam('location'));
     const [parkingLots, setParkingLots] = useState([]);
@@ -26,6 +28,7 @@ const DisplayScreen = (props) => {
         const fetchParkingLots = async () => {
             var ParkingLots = [];
             console.log("Start fetch");
+            console.log(Config.REACT_APP_OTHER_BASE_URL);
             try {
                 const returnedParkingLots = await Axios.get(`${baseUrl}ParkingLot/All`);
                 ParkingLots = returnedParkingLots.data;

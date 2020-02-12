@@ -3,11 +3,11 @@ import { StyleSheet, View, Dimensions } from "react-native";
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryStack, VictoryAxis } from "victory-native";
 import Colors from '../constants/Colors';
 import Axios from 'axios';
+import Config from '../config';
 
 const chartHeight = Dimensions.get('window').height / 2.4581; //Optimal height is 300, which is screen height / 2.4581
-const baseUrl = Platform.OS === 'ios' ? 'https://f3962a70.ngrok.io/' : 'http://10.0.2.2:5000/';
+const baseUrl = Platform.OS === 'ios' ? `${Config.REACT_APP_IOS_BASE_URL}/` : `${Config.REACT_APP_OTHER_BASE_URL}/`;
 
-console.log(chartHeight);
 const Dashboard = props => {
     const [lowestArray, setLowestArray] = useState([]);
     const [extraForHighest, setExtraForHighest] = useState([]);

@@ -5,8 +5,11 @@
 ### Welcome to SPOT Mobile!
 <hr>
 
-SPOT Mobile is part of my senior capstone.
+SPOT Mobile is the Mobile interface for my senior capstone project SPOT (Simple Parking Observation Tool).
 
+SPOT is an application that monitors parking lots with a camera and sends the analyzed data to the user interface. 
+
+This repository is the MVC of SPOT and does not contain the machine learning model (I developed the web and mobile interface and did not take part in the MLM).
 
 <br />
 
@@ -25,7 +28,7 @@ SPOT Mobile is part of my senior capstone.
 ### Get Started <g-emoji class="g-emoji" alias="rocket" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f680.png">🚀</g-emoji>
 <hr>
 
-
+Demo (3:18 to 6:20 for SPOT Mobile): https://drive.google.com/file/d/1VUJ0MA52Qic0hfVtEmGZjFfhAdsruZpb/view?usp=sharing
 
 <br />
 

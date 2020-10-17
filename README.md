@@ -16,7 +16,7 @@ This repository is the MVC of SPOT and does not contain the machine learning mod
 ### Table of Contents <g-emoji class="g-emoji" alias="book" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d6.png">📖</g-emoji>
 <hr>
 
-  - [Welcome to Unibooks](#welcome-to-unibooks)
+  - [Welcome to SPOT Mobile](#welcome-to-spot-mobile)
   - [**Get Started**](#get-started-)
   - [Technologies/Integrations](#technologies-integrations-)
   - [Contribute](#contribute-)
